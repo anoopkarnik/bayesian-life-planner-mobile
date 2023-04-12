@@ -25,21 +25,23 @@ const StatDescription = () => {
     const [activeState, setActive] = useState(active);
     const [hiddenState, setHidden] = useState(hidden);
     const [completedState,setCompleted] = useState(completed);
-    const [valueState, setValue] = useState(value);
+    const [valueState, setValue] = useState(String(value));
     const [isEditing,setIsEditing] = useState(false);
 
    
-    function formatDate(newDate) {
+    function formatDate(date) {
       const months = {0: 'January',1: 'February',2: 'March',3: 'April',
       4: 'May', 5: 'June', 6: 'July', 7: 'August', 8: 'September',
         9: 'October', 10: 'November',  11: 'December' }
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      const time = date.getTime()
+      const newDate = new Date(time - ((5*60)+30)*60*1000)
       const year = newDate.getFullYear()
-      const date = newDate.getDate()
+      const date2 = newDate.getDate()
       const monthIndex = newDate.getMonth()
       const monthName = months[newDate.getMonth()]
       const dayName = days[newDate.getDay()] // Thu
-      const formatted = `${dayName}, ${date} ${monthName} ${year}`
+      const formatted = `${dayName}, ${date2} ${monthName} ${year}`
       return formatted.toString()
     }
 
@@ -112,6 +114,15 @@ const StatDescription = () => {
             placeholder={nameState}  value={nameState} Name='text' 
             onChangeText={text => setName(text)}/>:
             <Text className="text-white text-xl">{nameState}</Text>}
+          </View>
+          <View className="flex-row bg-gray-800 py-2">
+            <Text className="text-white text-xl mr-2">value : </Text>
+            {isEditing?
+            <TextInput 
+            className="flex-1 bg-white text-xl"
+            placeholder={valueState}  value={valueState} Name='text' 
+            onChangeText={text => setValue(text)}/>:
+            <Text className="text-white text-xl">{valueState}</Text>}
           </View>
           <View className="flex-row bg-gray-800 py-2">
             <Text className=" text-white text-xl">active : </Text>

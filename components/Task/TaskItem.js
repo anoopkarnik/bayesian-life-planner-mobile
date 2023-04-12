@@ -43,12 +43,13 @@ const TaskItem = (props) => {
     const medium ="flex flex-row flex-1 bg-[#FFFF99] border-solid border-1"
     const low ="flex flex-row flex-1 bg-gray-400 border-solid border-1"
 	var dueDateTime = new Date(props.record.dueDate)
-	var dueDateTime2 = new Date(dueDateTime.getFullYear(),dueDateTime.getMonth(),dueDateTime.getDate()).getTime()
+	var dueDateTime2 = new Date(dueDateTime.getFullYear(),dueDateTime.getMonth(),dueDateTime.getDate()).getTime() - ((5*60)+30)*60*1000
 	var currentTime = new Date()
 	var currentTime2 = new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDate()).getTime()
 	const daysLeft = (dueDateTime2-currentTime2)/one_day
 	const {showActive} = useContext(ActiveContext);
     const navigation = useNavigation();
+    
 
 	const onComplete = async() => {
 		await completeTask(config,'Bearer '+user.accessToken,props.record.id,user.id)
@@ -62,7 +63,12 @@ const TaskItem = (props) => {
         totalTimeSpent, description,active,hidden,completed,every,daysOfWeek})
 	}
 
-     
+  const refreshForm = async() =>{
+    setShowAddTask(false);
+    await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.taskTypeName,showActive);
+    setShowChildTasks(true);
+}
+    
 
   return (
     <View className="flex">
@@ -99,7 +105,7 @@ const TaskItem = (props) => {
             ))}
           </View>:null}
         {showAddTask?
-          <AddChildTaskForm refreshFunction={props.refreshFunction} 
+          <AddChildTaskForm refreshFunction={refreshForm} 
           name={props.record.name} type={props.record.taskTypeName}/>:null}
 
     </View>

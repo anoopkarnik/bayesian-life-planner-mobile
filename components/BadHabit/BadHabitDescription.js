@@ -32,17 +32,19 @@ const BadHabitDescription = () => {
     const [showStartDate,setShowStartDate] = useState(false);
 
    
-    function formatDate(newDate) {
+    function formatDate(date) {
       const months = {0: 'January',1: 'February',2: 'March',3: 'April',
       4: 'May', 5: 'June', 6: 'July', 7: 'August', 8: 'September',
         9: 'October', 10: 'November',  11: 'December' }
       const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+      const time = date.getTime()
+      const newDate = new Date(time - ((5*60)+30)*60*1000)
       const year = newDate.getFullYear()
-      const date = newDate.getDate()
+      const date2 = newDate.getDate()
       const monthIndex = newDate.getMonth()
       const monthName = months[newDate.getMonth()]
       const dayName = days[newDate.getDay()] // Thu
-      const formatted = `${dayName}, ${date} ${monthName} ${year}`
+      const formatted = `${dayName}, ${date2} ${monthName} ${year}`
       return formatted.toString()
     }
 
@@ -155,8 +157,7 @@ const BadHabitDescription = () => {
             <Text className="text-white text-xl ">startDate : </Text>
               <TouchableOpacity onPress={()=>setShowStartDate(!showStartDate)}
               className="flex-1 bg-white text-xl" placeholder="Start Date">
-                <Text className="text-xl">{startDateState.getDate()}-
-                {startDateState.getMonth()}-{startDateState.getFullYear()}</Text>  
+                <Text className="text-xl">{formatDate(new Date(startDateState))}</Text>  
               </TouchableOpacity>       
             {showStartDate?
               <DateTimePicker
@@ -168,8 +169,7 @@ const BadHabitDescription = () => {
          :null}
           </View>:
           <View className="flex-row bg-gray-800 py-2">
-            <Text className="text-white text-xl">startDate : {startDateState.getDate()}-
-              {startDateState.getMonth()}-{startDateState.getFullYear()}
+            <Text className="text-white text-xl">startDate : {formatDate(new Date(startDateState))}
             </Text>
           </View>} 
         <View className="align-center">

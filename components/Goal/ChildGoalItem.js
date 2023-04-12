@@ -43,6 +43,12 @@ const ChildGoalItem = (props) => {
     startDate,timeTaken})
 	}
 
+  const refreshForm = async() =>{
+    setShowAddGoal(false);
+    await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.goalTypeName,showActive);
+    setShowChildGoals(true);
+}
+
      
 
   return (
@@ -76,7 +82,7 @@ const ChildGoalItem = (props) => {
             ))}
           </View>:null}
         {showAddGoal?
-          <AddChildGoalForm refreshFunction={props.refreshFunction} 
+          <AddChildGoalForm refreshFunction={refreshForm} 
           name={props.record.name} type={props.record.goalTypeName}/>:null}
 
     </View>

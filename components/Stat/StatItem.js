@@ -18,7 +18,7 @@ const StatItem = (props) => {
     var createdAt = props.record.createdAt;
     var updatedAt = props.record.updatedAt;
     var name = props.record.name;
-    var statTypeName = props.record.statTypeName;
+    var statTypeName = props.record.statsTypeName;
     var description = props.record.description;
     var active = props.record.active;
     var hidden = props.record.hidden;
@@ -39,6 +39,12 @@ const StatItem = (props) => {
 		navigation.navigate("Description",{id,createdAt,updatedAt,name,value,
         statTypeName, description,active,hidden,completed,startDate})
 	}
+
+  const refreshForm = async() =>{
+    setShowAddStat(false);
+    await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.statsTypeName,showActive);
+    setShowChildStats(true);
+}
 
      
 
@@ -76,7 +82,7 @@ const StatItem = (props) => {
             ))}
           </View>:null}
         {showAddStat?
-          <AddChildStatForm refreshFunction={props.refreshFunction} 
+          <AddChildStatForm refreshFunction={refreshForm} 
           name={props.record.name} type={props.record.statsTypeName}/>:null}
 
     </View>

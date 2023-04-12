@@ -4,6 +4,9 @@ import { useNavigation } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import * as Animatable from 'react-native-animatable';
 import {XMarkIcon} from "react-native-heroicons/solid"
+import { ScrollView } from 'react-native-gesture-handler';
+import { signup } from '../api/AuthenticationAPI';
+import { ConfigContext } from '../context/ConfigContext';
 
 const SignupScreen = () => {
     const navigation = useNavigation();
@@ -11,14 +14,22 @@ const SignupScreen = () => {
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
     const [role,setRole] = useState(['user'])
+    const {config} = useContext(ConfigContext);
+
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown:false,
         });
     }, [])
+
+    const onSubmit = async()=>{
+        await signup(config,name,email,password,role)
+        navigation.navigate("Login")
+      } 
+
   return (
     <SafeAreaView className="bg-black flex-1 justify-center items-center">
-        <View>
+        <ScrollView>
         <View className="mx-2 my-8">
             <TouchableOpacity onPress={()=> navigation.navigate("Login")}>
                     <XMarkIcon color="white" size={30}/>
@@ -58,13 +69,13 @@ const SignupScreen = () => {
                     /> 
                 </View> 
                 <View className="flex-row justify-center items-center">
-                    <TouchableOpacity className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
+                    <TouchableOpacity  onPress={onSubmit} className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
                         <Text className="text-white"> REGISTER </Text>
                     </TouchableOpacity>
                 </View>
                 
             </View>
-        </View>
+        </ScrollView>
     </SafeAreaView>
   )
 }

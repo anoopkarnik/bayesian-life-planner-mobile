@@ -62,6 +62,12 @@ const ChildTaskItem = (props) => {
         totalTimeSpent, description,active,hidden,completed,every,daysOfWeek})
 	}
 
+    const refreshChildTaskForm = async() =>{
+        showAddTask(false);
+        await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.taskTypeName,showActive)
+        showChildTasks(true);
+    }
+
      
 
   return (
@@ -84,10 +90,10 @@ const ChildTaskItem = (props) => {
                     onPress={onComplete}/>
             </View>
             <View className="w-1/5">
-              <TouchableOpacity
+              {/* <TouchableOpacity
                    onPress={()=>{setShowAddTask(!showAddTask)}}>
                   <PlusCircleIcon color="white" size={30}/>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
         </View>
         {showChildTasks?
@@ -97,7 +103,7 @@ const ChildTaskItem = (props) => {
             ))}
           </View>:null}
         {showAddTask?
-          <AddChildTaskForm refreshFunction={props.refreshFunction} 
+          <AddChildTaskForm refreshFunction={refreshChildTaskForm} 
           name={props.record.name} type={props.record.taskTypeName}/>:null}
 
     </View>

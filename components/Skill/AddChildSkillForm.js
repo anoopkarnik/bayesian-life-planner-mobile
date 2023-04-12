@@ -20,7 +20,7 @@ const AddChildSkillForm = (props) => {
    const onSubmit =async () =>{
 		await createChildSkill(config, 'Bearer '+user.accessToken,name,
 		props.type,timeTaken,props.name,active);
-		await props.refreshFunction(config,'Bearer '+user.accessToken,props.name,showActive);
+		await props.refreshFunction(config,'Bearer '+user.accessToken,props.type,showActive);
 	}
 
   return (

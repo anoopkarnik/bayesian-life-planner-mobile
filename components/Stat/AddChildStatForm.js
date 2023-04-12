@@ -21,7 +21,7 @@ const AddChildStatForm = (props) => {
   const onSubmit =async () =>{
 		await createChildStat(config, 'Bearer '+user.accessToken,name,
 		props.type,value,description,props.name,active);
-		await props.refreshFunction(config,'Bearer '+user.accessToken,props.name,showActive);
+		await props.refreshFunction(config,'Bearer '+user.accessToken,props.type,showActive);
 	}
 
   return (

@@ -20,20 +20,21 @@ import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
       const {user} = useContext(UserContext);
       const {config} = useContext(ConfigContext);
      
-      function formatDate(newDate) {
+      function formatDate(date) {
         const months = {0: 'January',1: 'February',2: 'March',3: 'April',
         4: 'May', 5: 'June', 6: 'July', 7: 'August', 8: 'September',
           9: 'October', 10: 'November',  11: 'December' }
         const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        const time = date.getTime()
+        const newDate = new Date(time - ((5*60)+30)*60*1000)
         const year = newDate.getFullYear()
-        const date = newDate.getDate()
+        const date2 = newDate.getDate()
         const monthIndex = newDate.getMonth()
         const monthName = months[newDate.getMonth()]
         const dayName = days[newDate.getDay()] // Thu
-        const formatted = `${dayName}, ${date} ${monthName} ${year}`
+        const formatted = `${dayName}, ${date2} ${monthName} ${year}`
         return formatted.toString()
       }
-  
     useLayoutEffect(() => {
       navigation.setOptions({
           headerShown:false,

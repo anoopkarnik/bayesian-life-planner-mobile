@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import * as Animatable from 'react-native-animatable';
 import {XMarkIcon} from "react-native-heroicons/solid";
+import { ScrollView } from 'react-native-gesture-handler';
 
 const ForgotPasswordScreen = () => {
     const navigation = useNavigation();

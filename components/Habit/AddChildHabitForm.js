@@ -1,5 +1,6 @@
-import { View, Text,TouchableOpacity,CheckBox } from 'react-native'
+import { View, Text,TouchableOpacity } from 'react-native'
 import React, { useState,useContext,useEffect }  from 'react'
+import CheckBox from 'react-native-check-box'
 import { TextInput } from 'react-native-gesture-handler'
 import { UserContext } from '../../context/UserContext';
 import { createChildHabit } from '../../api/HabitAPI';

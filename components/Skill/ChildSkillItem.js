@@ -42,6 +42,13 @@ const ChildSkillItem = (props) => {
         completed,dueDate})
 	}
 
+  const refreshForm = async() =>{
+    setShowAddSkill(false);
+    await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.skillTypeName,showActive);
+    setShowChildSkills(true);
+}
+
+
      
 
   return (
@@ -75,7 +82,7 @@ const ChildSkillItem = (props) => {
             ))}
           </View>:null}
         {showAddSkill?
-          <AddChildSkillForm refreshFunction={props.refreshFunction} 
+          <AddChildSkillForm refreshFunction={refreshForm} 
           name={props.record.name} type={props.record.skillTypeName}/>:null}
 
     </View>

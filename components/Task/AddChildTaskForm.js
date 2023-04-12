@@ -1,5 +1,6 @@
-import { View, Text,TouchableOpacity,CheckBox } from 'react-native'
+import { View, Text,TouchableOpacity} from 'react-native'
 import React, { useState,useContext,useEffect }  from 'react'
+import CheckBox from 'react-native-check-box'
 import { TextInput } from 'react-native-gesture-handler'
 import { UserContext } from '../../context/UserContext';
 import { createChildTask } from '../../api/TaskAPI';
@@ -65,8 +66,6 @@ const AddChildTaskForm = (props) => {
     setDaysOfWeek(temp3);
    }
    const onSubmit =async () =>{
-		console.log(weekDays);
-
 		await createChildTask(config, 'Bearer '+user.accessToken,name,
 		startDate,timeTaken,dueDate,every,scheduleType,props.type,daysOfWeek,props.name,
     active);

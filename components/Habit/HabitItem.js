@@ -44,7 +44,7 @@ const HabitItem = (props) => {
 	const medium ="flex flex-row flex-1 bg-[#FFFF99] border-solid border-1"
 	const low ="flex flex-row flex-1 bg-gray-400 border-solid border-1"
 	var dueDateTime = new Date(props.record.dueDate)
-	var dueDateTime2 = new Date(dueDateTime.getFullYear(),dueDateTime.getMonth(),dueDateTime.getDate()).getTime()
+	var dueDateTime2 = new Date(dueDateTime.getFullYear(),dueDateTime.getMonth(),dueDateTime.getDate()).getTime() - ((5*60)+30)*60*1000
 	var currentTime = new Date()
 	var currentTime2 = new Date(currentTime.getFullYear(),currentTime.getMonth(),currentTime.getDate()).getTime()
 	const daysLeft = (dueDateTime2-currentTime2)/one_day
@@ -62,6 +62,12 @@ const HabitItem = (props) => {
         timeOfDay,timeTaken,startDate,dueDate,habitTypeName,streak,totalTimes,
         totalTimeSpent, description,active,hidden,completed,every,daysOfWeek})
 	}
+
+    const refreshForm = async() =>{
+        setShowAddHabit(false);
+        await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive);
+        setShowChildHabits(true);
+    }
 
      
 
@@ -105,7 +111,7 @@ const HabitItem = (props) => {
             ))}
           </View>:null}
         {showAddHabit?
-          <AddChildHabitForm refreshFunction={props.refreshFunction} 
+          <AddChildHabitForm refreshFunction={refreshForm} 
           name={props.record.name} type={props.record.habitTypeName}/>:null}
 
     </View>

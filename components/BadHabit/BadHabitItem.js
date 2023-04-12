@@ -51,10 +51,12 @@ const BadHabitItem = (props) => {
 		setTime(Date.now() - Date.parse(props.record.updatedAt));
 	}
 
-	const onRefresh = async() =>{
-		setShowAddBadHabit(false);
-		await props.refreshFunction(config,'Bearer '+user.accessToken,props.record.badHabitTypeName,showActive)
-	}
+
+  const refreshForm = async() =>{
+    setShowAddBadHabit(false);
+    await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.badHabitTypeName,showActive);
+    setShowChildBadHabits(true);
+}
 
   useEffect(() => {
 		const interval = setInterval(() => 
@@ -105,9 +107,8 @@ const BadHabitItem = (props) => {
             ))}
           </View>:null}
         {showAddBadHabit?
-          <AddChildBadHabitForm refreshFunction={props.refreshFunction} 
+          <AddChildBadHabitForm refreshFunction={refreshForm} 
           name={props.record.name} type={props.record.badHabitTypeName}/>:null}
-
     </View>
   )
 }

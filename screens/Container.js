@@ -16,6 +16,9 @@ import StatStackNavigator from '../SubStackNavigator.js/StatStackNavigator'
 import SkillStackNavigator from '../SubStackNavigator.js/SkillStackNavigator'
 import BadHabitStackNavigator from '../SubStackNavigator.js/BadHabitStackNavigator'
 import GoalStackNavigator from '../SubStackNavigator.js/GoalStackNavigator'
+import { useEffect,useContext } from 'react'
+import { UserContext } from '../context/UserContext'
+
 const Container = () => {
     const habitName = 'Habit';
     const configureName = 'Configure';
@@ -27,6 +30,7 @@ const Container = () => {
     const taskName = 'Task';
     const profileName = 'Profile';
     const Tab = createBottomTabNavigator();
+    const {user} = useContext(UserContext);
 
     const navigation = useNavigation();
     useLayoutEffect(() => {
@@ -34,6 +38,15 @@ const Container = () => {
             headerShown:false,
         });
     }, [])
+
+    useEffect(()=>{
+	if(typeof user.name === 'undefined' || !user.name){   
+        navigation.navigate("Login")
+      }
+    else{
+        navigation.navigate("Container")
+      }
+    },[user])
   
     return (
         <NavigationContainer  independent={true}>

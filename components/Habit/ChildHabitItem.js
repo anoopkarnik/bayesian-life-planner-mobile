@@ -96,7 +96,7 @@ const HabitItem = (props) => {
               </TouchableOpacity>
             </View>
         </View>
-        {showChildHabits?
+        {/* {showChildHabits?
           <View>
             {props.record.habitResponses.map((record)=>(
                 <ChildHabitItem key={record.id} record={record} refreshFunction={props.refreshFunction}/>
@@ -104,7 +104,7 @@ const HabitItem = (props) => {
           </View>:null}
         {showAddHabit?
           <AddChildHabitForm refreshFunction={props.refreshFunction} 
-          name={props.record.name} type={props.record.habitTypeName}/>:null}
+          name={props.record.name} type={props.record.habitTypeName}/>:null} */}
 
     </View>
   )

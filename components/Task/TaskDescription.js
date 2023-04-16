@@ -151,7 +151,7 @@ const TaskDescription = () => {
 
   return (
     <SafeAreaView className="bg-black flex-1">
-      <ScrollView className="my-10">
+      <ScrollView>
         <View className='relative'>
           <TouchableOpacity onPress={navigation.goBack}>
             <ArrowLeftIcon size={20} color='white'/>

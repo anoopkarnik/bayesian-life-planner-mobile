@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import StatScreen from '../screens/StatScreen';
-import StatDescription from '../components/Stat/StatDescription';
+import SkillScreen from '../SkillScreen';
+import SkillDescription from '../../../../components/Skill/SkillDescription';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
-const StatStackNavigator= ()=> {
+const SkillStackNavigator= ()=> {
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -16,11 +16,11 @@ const StatStackNavigator= ()=> {
     }, [])
   return (
     <Stack.Navigator>
-        <Stack.Screen name="Normal" component={StatScreen}/>
-        <Stack.Screen name="Description" component={StatDescription}/>        
+        <Stack.Screen name="Normal" component={SkillScreen}/>
+        <Stack.Screen name="Description" component={SkillDescription}/>
     </Stack.Navigator>
   );
 }
 
-export default StatStackNavigator;
+export default SkillStackNavigator;
 

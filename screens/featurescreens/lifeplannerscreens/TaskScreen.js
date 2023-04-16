@@ -4,16 +4,15 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
   import { useLayoutEffect } from 'react'
   import { useState,useEffect } from 'react';
   import { useContext } from 'react';
-  import { ConfigContext } from '../context/ConfigContext';
-  import { UserContext } from '../context/UserContext';
-  import GoalList from '../components/Goal/GoalList';
-  import { getTotalGoals } from '../api/AdminAPI';
-  import { ActiveContext } from '../context/ActiveContext';
+  import { ConfigContext } from '../../../context/ConfigContext';
+  import { UserContext } from '../../../context/UserContext';
+  import TaskList from '../../../components/Task/TaskList';
+  import { getTotalTasks } from '../../../api/AdminAPI';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
   
-  const GoalScreen = () => {
+  const TaskScreen = () => {
       const navigation = useNavigation();
-      const [goals,setGoals] = useState([]);
+      const [tasks,setTasks] = useState([]);
       const {user} = useContext(UserContext);
       const {config} = useContext(ConfigContext);
       const isFocused = useIsFocused();
@@ -25,12 +24,12 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
       }, [])
   
       useEffect(() => {
-          isFocused && refreshGoalPage(config,'Bearer '+user.accessToken);
+          isFocused && refreshTaskPage(config,'Bearer '+user.accessToken);
         }, [isFocused]);
   
-      const refreshGoalPage = async(backend_url,bearerToken) =>{
-        const {goal,goalOptions} = await getTotalGoals(config,'Bearer '+user.accessToken);
-        setGoals(goal);
+      const refreshTaskPage = async(backend_url,bearerToken) =>{
+        const {task,taskOptions} = await getTotalTasks(config,'Bearer '+user.accessToken);
+        setTasks(task);
       }
   
       const Stack = createNativeStackNavigator();
@@ -38,12 +37,12 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
     return (
       
       <SafeAreaView className="bg-black flex-1">
-        <ScrollView className="my-10">
-          {goals?.map(goal=>
-              <GoalList key={goal.name} goal={goal} refreshFunction={refreshGoalPage}/>)} 
+        <ScrollView>
+          {tasks.map(task=>
+              <TaskList key={task.name} task={task} refreshFunction={refreshTaskPage}/>)} 
         </ScrollView>
       </SafeAreaView>
     )
   }
   
-  export default GoalScreen
+  export default TaskScreen

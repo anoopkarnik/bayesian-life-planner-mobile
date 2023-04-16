@@ -4,16 +4,17 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
   import { useLayoutEffect } from 'react'
   import { useState,useEffect } from 'react';
   import { useContext } from 'react';
-  import { ConfigContext } from '../context/ConfigContext';
-  import { UserContext } from '../context/UserContext';
-  import SkillList from '../components/Skill/SkillList';
-  import { getTotalSkills } from '../api/AdminAPI';
-  import { ActiveContext } from '../context/ActiveContext';
+  import { ConfigContext } from '../../../context/ConfigContext';
+  import { UserContext } from '../../../context/UserContext';
+  import BadHabitList from '../../../components/BadHabit/BadHabitList';
+  import { getTotalBadHabits } from '../../../api/AdminAPI';
+  import { ActiveContext } from '../../../context/ActiveContext';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
   
-  const SkillScreen = () => {
+  const BadHabitScreen = () => {
       const navigation = useNavigation();
-      const [skills,setSkills] = useState([]);
+      const [badHabits,setBadHabits] = useState([]);
       const {user} = useContext(UserContext);
       const {config} = useContext(ConfigContext);
       const isFocused = useIsFocused();
@@ -25,12 +26,12 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
       }, [])
   
       useEffect(() => {
-          isFocused && refreshSkillPage(config,'Bearer '+user.accessToken);
+          isFocused && refreshBadHabitPage(config,'Bearer '+user.accessToken);
         }, [isFocused]);
   
-      const refreshSkillPage = async(backend_url,bearerToken) =>{
-        const {skill,skillOptions} = await getTotalSkills(config,'Bearer '+user.accessToken);
-        setSkills(skill);
+      const refreshBadHabitPage = async(backend_url,bearerToken) =>{
+        const {badHabit,badHabitOptions} = await getTotalBadHabits(config,'Bearer '+user.accessToken);
+        setBadHabits(badHabit);
       }
   
       const Stack = createNativeStackNavigator();
@@ -38,12 +39,12 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
     return (
       
       <SafeAreaView className="bg-black flex-1">
-        <ScrollView className="my-10">
-          {skills?.map(skill=>
-              <SkillList key={skill.name} skill={skill} refreshFunction={refreshSkillPage}/>)} 
+        <ScrollView>
+          {badHabits?.map(badHabit=>
+              <BadHabitList key={badHabit.name} badHabit={badHabit} refreshFunction={refreshBadHabitPage}/>)} 
         </ScrollView>
       </SafeAreaView>
     )
   }
   
-  export default SkillScreen
+  export default BadHabitScreen

@@ -33,7 +33,7 @@ const BadHabitList = (props) => {
     <View >
       <View>
       </View>
-      <View className="flex-row py-3 px-2 bg-gray-600">
+      <View className="flex-row py-3 px-2 bg-[#556581]">
         <TouchableOpacity 
           onPress={()=>setShowBadHabit(!showBadHabit)} className="flex-1 ">
             <Text className="text-xl text-white font-bold">{props.badHabit}</Text>

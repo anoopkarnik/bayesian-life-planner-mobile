@@ -26,7 +26,8 @@ const ConfigureItem = (props) => {
 	}
   return (
     <View className="flex-row ">
-        <View className="flex-1">
+        <View className = "flex-1 flex-row">
+        <View>
             {isEditing?
                 <TextInput required='required' Name='text' 
                     id='name' placeholder='name' value={name} 
@@ -34,11 +35,12 @@ const ConfigureItem = (props) => {
                             <Text className="text-xl">{props.record.name}</Text>
             }
         </View>
-        <TouchableOpacity onPress={onEdit}>
+        <TouchableOpacity className="mx-2" onPress={onEdit}>
             <PencilIcon color="black" height={20} width={20}/>
         </TouchableOpacity>
+        </View>
         <TouchableOpacity onPress={onDelete}>
-            <XCircleIcon color="black" height={20} width={20}/>
+            <XCircleIcon color="black" height={30} width={30}/>
         </TouchableOpacity>
     </View>
   )

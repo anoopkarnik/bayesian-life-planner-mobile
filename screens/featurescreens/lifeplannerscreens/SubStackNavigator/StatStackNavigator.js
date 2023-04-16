@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import HabitScreen from '../screens/HabitScreen';
-import HabitDescription from '../components/Habit/HabitDescription';
+import StatScreen from '../StatScreen';
+import StatDescription from '../../../../components/Stat/StatDescription';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
-const HabitStackNavigator= ()=> {
+const StatStackNavigator= ()=> {
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -16,11 +16,11 @@ const HabitStackNavigator= ()=> {
     }, [])
   return (
     <Stack.Navigator>
-        <Stack.Screen name="Normal" component={HabitScreen}/>
-        <Stack.Screen name="Description" component={HabitDescription}/>        
+        <Stack.Screen name="Normal" component={StatScreen}/>
+        <Stack.Screen name="Description" component={StatDescription}/>        
     </Stack.Navigator>
   );
 }
 
-export default HabitStackNavigator;
+export default StatStackNavigator;
 

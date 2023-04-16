@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import TaskScreen from '../screens/TaskScreen';
-import TaskDescription from '../components/Task/TaskDescription';
+import JournalScreen from '../JournalScreen';
+import JournalDescription from '../../../../components/Journal/JournalDescription';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
-const TaskStackNavigator= ()=> {
+const JournalStackNavigator= ()=> {
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -16,11 +16,11 @@ const TaskStackNavigator= ()=> {
     }, [])
   return (
     <Stack.Navigator>
-        <Stack.Screen name="Normal" component={TaskScreen}/>
-        <Stack.Screen name="Description" component={TaskDescription}/>        
+        <Stack.Screen name="Normal" component={JournalScreen}/>
+        <Stack.Screen name="Description" component={JournalDescription}/>        
     </Stack.Navigator>
   );
 }
 
-export default TaskStackNavigator;
+export default JournalStackNavigator;
 

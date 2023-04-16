@@ -4,16 +4,16 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
   import { useLayoutEffect } from 'react'
   import { useState,useEffect } from 'react';
   import { useContext } from 'react';
-  import { ConfigContext } from '../context/ConfigContext';
-  import { UserContext } from '../context/UserContext';
-  import BadHabitList from '../components/BadHabit/BadHabitList';
-  import { getTotalBadHabits } from '../api/AdminAPI';
-  import { ActiveContext } from '../context/ActiveContext';
+  import { ConfigContext } from '../../../context/ConfigContext';
+  import { UserContext } from '../../../context/UserContext';
+  import GoalList from '../../../components/Goal/GoalList';
+  import { getTotalGoals } from '../../../api/AdminAPI';
+  import { ActiveContext } from '../../../context/ActiveContext';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
   
-  const BadHabitScreen = () => {
+  const GoalScreen = () => {
       const navigation = useNavigation();
-      const [badHabits,setBadHabits] = useState([]);
+      const [goals,setGoals] = useState([]);
       const {user} = useContext(UserContext);
       const {config} = useContext(ConfigContext);
       const isFocused = useIsFocused();
@@ -25,12 +25,12 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
       }, [])
   
       useEffect(() => {
-          isFocused && refreshBadHabitPage(config,'Bearer '+user.accessToken);
+          isFocused && refreshGoalPage(config,'Bearer '+user.accessToken);
         }, [isFocused]);
   
-      const refreshBadHabitPage = async(backend_url,bearerToken) =>{
-        const {badHabit,badHabitOptions} = await getTotalBadHabits(config,'Bearer '+user.accessToken);
-        setBadHabits(badHabit);
+      const refreshGoalPage = async(backend_url,bearerToken) =>{
+        const {goal,goalOptions} = await getTotalGoals(config,'Bearer '+user.accessToken);
+        setGoals(goal);
       }
   
       const Stack = createNativeStackNavigator();
@@ -38,12 +38,12 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
     return (
       
       <SafeAreaView className="bg-black flex-1">
-        <ScrollView className="my-10">
-          {badHabits?.map(badHabit=>
-              <BadHabitList key={badHabit.name} badHabit={badHabit} refreshFunction={refreshBadHabitPage}/>)} 
+        <ScrollView>
+          {goals?.map(goal=>
+              <GoalList key={goal.name} goal={goal} refreshFunction={refreshGoalPage}/>)} 
         </ScrollView>
       </SafeAreaView>
     )
   }
   
-  export default BadHabitScreen
+  export default GoalScreen

@@ -3,11 +3,11 @@ import React, { useState,useContext,useEffect } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import * as Animatable from 'react-native-animatable';
-import { signin } from '../api/AuthenticationAPI';
-import { ConfigContext } from '../context/ConfigContext';
-import { useAuth } from '../context/UserContext';
+import { signin } from '../../api/AuthenticationAPI';
+import { ConfigContext } from '../../context/ConfigContext';
+import { useAuth } from '../../context/UserContext';
 import { ScrollView } from 'react-native-gesture-handler';
-import { UserContext } from '../context/UserContext';
+import { UserContext } from '../../context/UserContext';
 import { EyeIcon } from 'react-native-heroicons/solid';
 
 
@@ -86,7 +86,7 @@ const LoginScreen = () => {
         <ScrollView>
             <View>
                 <Animatable.Image 
-                    source={require("../assets/logo.gif")} 
+                    source={require("../../assets/logo.gif")} 
                     animation="slideInUp"
                     iterationCount={1}
                     className="h-96 w-96"/> 

@@ -39,7 +39,7 @@ const RuleList = (props) => {
 
   return (
     <View >
-      <View className="flex-row py-3 px-2 bg-gray-600">
+      <View className="flex-row py-3 px-2 bg-[#556581]">
         <TouchableOpacity 
           onPress={()=>setShowCompletedRule(!showCompletedRule)} className="flex-1 ">
             <Text className="text-xl text-white font-bold">Completion Rules</Text>

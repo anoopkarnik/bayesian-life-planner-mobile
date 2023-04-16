@@ -1,8 +1,8 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import GoalScreen from '../screens/GoalScreen';
-import GoalDescription from '../components/Goal/GoalDescription';
-import RuleDescription from '../components/RuleEngine/RuleDescription';
+import GoalScreen from '../GoalScreen';
+import GoalDescription from '../../../../components/Goal/GoalDescription';
+import RuleDescription from '../../../../components/RuleEngine/RuleDescription';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 

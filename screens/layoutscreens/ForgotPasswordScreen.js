@@ -3,33 +3,22 @@ import React, { useState,useContext } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import * as Animatable from 'react-native-animatable';
-import {XMarkIcon} from "react-native-heroicons/solid"
+import {XMarkIcon} from "react-native-heroicons/solid";
 import { ScrollView } from 'react-native-gesture-handler';
-import { signup } from '../api/AuthenticationAPI';
-import { ConfigContext } from '../context/ConfigContext';
 
-const SignupScreen = () => {
+const ForgotPasswordScreen = () => {
     const navigation = useNavigation();
-    const [name,setName] = useState('');
-    const [email,setEmail] = useState('');
-    const [password,setPassword] = useState('');
-    const [role,setRole] = useState(['user'])
-    const {config} = useContext(ConfigContext);
-
+    const [currentPassword,setCurrentPassword] = useState('');
+    const [newPassword,setNewPassword] = useState('');
+    const [confirmNewpassword,setConfirmNewpassword] = useState('');
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown:false,
         });
     }, [])
-
-    const onSubmit = async()=>{
-        await signup(config,name,email,password,role)
-        navigation.navigate("Login")
-      } 
-
   return (
     <SafeAreaView className="bg-black flex-1 justify-center items-center">
-        <ScrollView>
+        <View>
         <View className="mx-2 my-8">
             <TouchableOpacity onPress={()=> navigation.navigate("Login")}>
                     <XMarkIcon color="white" size={30}/>
@@ -37,7 +26,7 @@ const SignupScreen = () => {
             </View>
             <View>
                 <Animatable.Image 
-                    source={require("../assets/logo.gif")} 
+                    source={require("../../assets/logo.gif")} 
                     animation="slideInUp"
                     iterationCount={1}
                     className="h-96 w-96"/> 
@@ -46,38 +35,40 @@ const SignupScreen = () => {
                 <View>
                     <TextInput
                     className="bg-gray-900 text-white mx-5 my-3 p-3 border-solid border-2 border-violet-400"
-                    placeholder="Name"
+                    placeholder="Current Password"
                     placeholderTextColor="#FFF"
-                    onChangeText={(name) => setName(name)}
+                    secureTextEntry={true}
+                    onChangeText={(currentPassword) => setCurrentPassword(currentPassword)}
                     /> 
                 </View>
                 <View>
                     <TextInput
                     className="bg-gray-900 text-white mx-5 my-3 p-3 border-solid border-2 border-violet-400"
-                    placeholder="Email"
+                    placeholder="New Password"
                     placeholderTextColor="#FFF"
-                    onChangeText={(email) => setEmail(email)}
+                    secureTextEntry={true}
+                    onChangeText={(newPassword) => setNewPassword(newPassword)}
                     /> 
                 </View> 
                 <View >
                     <TextInput
                     className="bg-gray-900 text-white mx-5 my-3 p-3 border-solid border-2 border-violet-400"
-                    placeholder="Password"
+                    placeholder="Confirm New Password"
                     placeholderTextColor="#FFF"
                     secureTextEntry={true}
-                    onChangeText={(password) => setPassword(password)}
+                    onChangeText={(confirmNewpassword) => setConfirmNewpassword(confirmNewpassword)}
                     /> 
                 </View> 
                 <View className="flex-row justify-center items-center">
-                    <TouchableOpacity  onPress={onSubmit} className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
-                        <Text className="text-white"> REGISTER </Text>
+                    <TouchableOpacity className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
+                        <Text className="text-white"> Change Password</Text>
                     </TouchableOpacity>
                 </View>
                 
             </View>
-        </ScrollView>
+        </View>
     </SafeAreaView>
   )
 }
 
-export default SignupScreen
+export default ForgotPasswordScreen

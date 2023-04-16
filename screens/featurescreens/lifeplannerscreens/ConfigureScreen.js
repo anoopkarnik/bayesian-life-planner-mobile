@@ -8,12 +8,13 @@ import { getTotalTasks,getTotalHabits,createTaskType,
   editSkillType,deleteSkillType, getTotalGoals,createGoalType,
   editGoalType,deleteGoalType, getTotalBadHabits,editBadHabitType,
   createBadHabitType,deleteBadHabitType
- } from '../api/AdminAPI';
- import { UserContext } from '../context/UserContext';
-import { ConfigContext } from '../context/ConfigContext';
+ } from '../../../api/AdminAPI';
+ import { UserContext } from '../../../context/UserContext';
+import { ConfigContext } from '../../../context/ConfigContext';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import ConfigureList from '../components/Configure/ConfigureList';
+import ConfigureList from '../../../components/Configure/ConfigureList';
+import { Bars3Icon } from 'react-native-heroicons/solid';
 
 const ConfigureScreen = () => {
   const [taskOptions, setTaskOptions] = useState([]);
@@ -56,7 +57,13 @@ const ConfigureScreen = () => {
     }
   return (
     <SafeAreaView className="bg-black flex-1">
-      <ScrollView className="my-10">
+              <View className="flex-row mt-8 mb-3">
+                <TouchableOpacity className="flex-1 " onPress={()=>navigation.toggleDrawer()}>
+                    <Bars3Icon color="white" size={30}/>
+                </TouchableOpacity>
+
+            </View>
+      <ScrollView>
           <ConfigureList name="Task Types" 
           records={taskOptions} 
             createFunction={createTaskType} 

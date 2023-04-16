@@ -4,11 +4,11 @@ import { View,Butchildton, Text,SafeAreaView,Image, TextInput, ScrollView,
   import { useLayoutEffect } from 'react'
   import { useState,useEffect } from 'react';
   import { useContext } from 'react';
-  import { ConfigContext } from '../context/ConfigContext';
-  import { UserContext } from '../context/UserContext';
-  import JournalList from '../components/Journal/JournalList';
-  import { getTotalJournals } from '../api/AdminAPI';
-  import { ActiveContext } from '../context/ActiveContext';
+  import { ConfigContext } from '../../../context/ConfigContext';
+  import { UserContext } from '../../../context/UserContext';
+  import JournalList from '../../../components/Journal/JournalList';
+  import { getTotalJournals } from '../../../api/AdminAPI';
+  import { ActiveContext } from '../../../context/ActiveContext';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
   
   const JournalScreen = () => {
@@ -38,7 +38,7 @@ import { View,Butchildton, Text,SafeAreaView,Image, TextInput, ScrollView,
     return (
       
       <SafeAreaView className="bg-black flex-1">
-        <ScrollView className="my-10">
+        <ScrollView>
           {journals.map(journal=>
               <JournalList key={journal.name} journal={journal} refreshFunction={refreshJournalPage}/>)} 
         </ScrollView>

@@ -21,31 +21,35 @@ const ConfigureList = (props) => {
   return (
     <View >
         <TouchableOpacity 
-        onPress={()=>setShow(!show)} className="align-middle p-3 px-10 mx-10 bg-gray-600">
+        onPress={()=>setShow(!show)} className="flex-row py-3 px-2 bg-[#556581]">
             <Text 
             className="text-xl text-white font-bold">{props.name}</Text>
         </TouchableOpacity>
-      {show?
-      <View>
-        <View className="bg-gray-400 p-3 px-10 mx-10">
-            {props.records.map((record)=>(
-                <ConfigureItem name={props.name} record={record} 
-                    createFunction={props.createFunction} 
-                    deleteFunction={props.deleteFunction} 
-                    refreshFunction={props.refreshFunction} 
-                    editFunction={props.editFunction}/>
-            ))}
-        </View>
-        <View className="flex-row">
-            <TextInput
-                className="flex-1 bg-gray-400 p-3 px-10 ml-10 text-black border-solid border-2 border-black"
-                placeholder="Name"  placeholderTextColor="#FFF" value={newName}
-                onChangeText={text => setNewName(text)}/>    
-            <TouchableOpacity className="flex-1 bg-gray-700 p-3 px-10 mr-10 border-solid border-2 border-black" onPress={onCreate}>
-              <Text className="text-white" >Add</Text>
-            </TouchableOpacity>
-        </View>
-      </View>:null}
+        {show?
+          <View>
+            <View className="bg-gray-400 py-3 px-2">
+                {props.records.map((record)=>(
+                    <ConfigureItem name={props.name} record={record} 
+                        createFunction={props.createFunction} 
+                        deleteFunction={props.deleteFunction} 
+                        refreshFunction={props.refreshFunction} 
+                        editFunction={props.editFunction}/>
+                ))}
+            </View>
+            <View className="flex-row bg-gray-400 justify-center items-center ">
+              <View className=" py-3 px-2 flex-1" >
+                <TextInput
+                    className="text-black "
+                    placeholder="Type New Category"  placeholderTextColor="#222" value={newName}
+                    onChangeText={text => setNewName(text)}/>  
+              </View>  
+              <View>
+                <TouchableOpacity className="bg-gray-700 p-3 px-10 mr-2 " onPress={onCreate}>
+                  <Text className="text-white" >Add</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+          </View>:null}
     </View>
   )
 }

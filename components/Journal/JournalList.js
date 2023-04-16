@@ -25,14 +25,14 @@ const JournalList = (props) => {
       // await props.refreshFunction(backend_url,bearerToken,journal)
       const record = await getJournals(config,bearerToken,journal);
       setRecords(record);
-      showAddJournal(false);
+      setShowAddJournal(false);
     }
 
   return (
     <View >
       <View>
       </View>
-      <View className="flex-row py-3 px-2 bg-gray-600">
+      <View className="flex-row py-3 px-2 bg-[#556581]">
         <TouchableOpacity 
           onPress={()=>setShowJournal(!showJournal)} className="flex-1 ">
             <Text className="text-xl text-white font-bold">{props.journal}</Text>

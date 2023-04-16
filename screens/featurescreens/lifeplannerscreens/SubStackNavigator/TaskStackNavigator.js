@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import BadHabitScreen from '../screens/BadHabitScreen';
-import BadHabitDescription from '../components/BadHabit/BadHabitDescription';
+import TaskScreen from '../TaskScreen';
+import TaskDescription from '../../../../components/Task/TaskDescription';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 
 const Stack = createNativeStackNavigator();
 
-const BadHabitStackNavigator= ()=> {
+const TaskStackNavigator= ()=> {
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -16,11 +16,11 @@ const BadHabitStackNavigator= ()=> {
     }, [])
   return (
     <Stack.Navigator>
-        <Stack.Screen name="Normal" component={BadHabitScreen}/>
-        <Stack.Screen name="Description" component={BadHabitDescription}/>        
+        <Stack.Screen name="Normal" component={TaskScreen}/>
+        <Stack.Screen name="Description" component={TaskDescription}/>        
     </Stack.Navigator>
   );
 }
 
-export default BadHabitStackNavigator;
+export default TaskStackNavigator;
 

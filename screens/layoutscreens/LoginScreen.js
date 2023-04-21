@@ -16,8 +16,8 @@ const LoginScreen = () => {
     const [isLoggedIn, setLoggedIn] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const {config} = useContext(ConfigContext);
-    const [name,setName] = useState('');
-    const [password,setPassword] = useState('password');
+    const [name,setName] = useState('anoop');
+    const [password,setPassword] = useState('dasika#1992');
     const {setUser} = useAuth();
     const {user} = useContext(UserContext);
 

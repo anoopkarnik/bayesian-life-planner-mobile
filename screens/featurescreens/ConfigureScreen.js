@@ -7,13 +7,17 @@ import { getTotalTasks,getTotalHabits,createTaskType,
   editStatsType,deleteStatsType,getTotalSkills,createSkillType,
   editSkillType,deleteSkillType, getTotalGoals,createGoalType,
   editGoalType,deleteGoalType, getTotalBadHabits,editBadHabitType,
-  createBadHabitType,deleteBadHabitType
- } from '../../../api/AdminAPI';
- import { UserContext } from '../../../context/UserContext';
-import { ConfigContext } from '../../../context/ConfigContext';
+  createBadHabitType,deleteBadHabitType,getTotalAccounts,createAccountType,
+  editAccountType,deleteAccountType,getTotalCategories,createCategoryType,
+  editCategoryType,deleteCategoryType,getTotalSubCategories,
+  createSubCategoryType,editSubCategoryType,deleteSubCategoryType,
+  getTotalExpenses,createExpenseType,editExpenseType,deleteExpenseType
+ } from '../../api/AdminAPI';
+ import { UserContext } from '../../context/UserContext';
+import { ConfigContext } from '../../context/ConfigContext';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import ConfigureList from '../../../components/Configure/ConfigureList';
+import ConfigureList from '../../components/Configure/ConfigureList';
 import { Bars3Icon } from 'react-native-heroicons/solid';
 
 const ConfigureScreen = () => {
@@ -24,6 +28,10 @@ const ConfigureScreen = () => {
     const [statsOptions, setStatsOptions] = useState([]);
     const [skillOptions,setSkillOptions] = useState([]);
     const [goalOptions,setGoalOptions] = useState([]);
+    const [accountOptions,setAccountOptions] = useState([]);
+    const [expenseOptions,setExpenseOptions] = useState([]);
+    const [categoryOptions,setCategoryOptions] = useState([]);
+    const [subCategoryOptions,setSubCategoryOptions] = useState([]);
     const {user} = useContext(UserContext);
     const {config} = useContext(ConfigContext);
 
@@ -47,6 +55,10 @@ const ConfigureScreen = () => {
       const {skill,skillOptions} = await getTotalSkills(backend_url,bearerToken);
       const {goal,goalOptions} = await getTotalGoals(backend_url,bearerToken);
       const {badHabits, badHabitOptions} = await getTotalBadHabits(backend_url,bearerToken);
+      const {accounts, accountOptions} = await getTotalAccounts(backend_url,bearerToken);
+      const {expenses, expenseOptions} = await getTotalExpenses(backend_url,bearerToken);
+      const {categories, categoryOptions} = await getTotalCategories(backend_url,bearerToken);
+      const {subCategories, subCategoryOptions} = await getTotalSubCategories(backend_url,bearerToken);
       setTaskOptions(taskOptions);  
       setHabitOptions(habitOptions);
       setJournalOptions(journalOptions);
@@ -54,6 +66,10 @@ const ConfigureScreen = () => {
       setSkillOptions(skillOptions);
       setGoalOptions(goalOptions);
       setBadHabitOptions(badHabitOptions);
+      setAccountOptions(accountOptions);
+      setExpenseOptions(expenseOptions);
+      setCategoryOptions(categoryOptions);
+      setSubCategoryOptions(subCategoryOptions);
     }
   return (
     <SafeAreaView className="bg-black flex-1">
@@ -89,6 +105,26 @@ const ConfigureScreen = () => {
             createFunction={createBadHabitType} 
             refreshFunction={refreshAdminPage} 
             deleteFunction={deleteBadHabitType} editFunction={editBadHabitType}/>
+          <ConfigureList name="Goal Types" records={goalOptions} 
+            createFunction={createGoalType} 
+            refreshFunction={refreshAdminPage} 
+            deleteFunction={deleteGoalType} editFunction={editGoalType}/>
+          <ConfigureList name="Account Types" records={accountOptions} 
+            createFunction={createAccountType} 
+            refreshFunction={refreshAdminPage} 
+            deleteFunction={deleteAccountType} editFunction={editAccountType}/>
+          <ConfigureList name="Expense Types" records={expenseOptions} 
+            createFunction={createExpenseType} 
+            refreshFunction={refreshAdminPage} 
+            deleteFunction={deleteExpenseType} editFunction={editExpenseType}/>
+          <ConfigureList name="Category Types" records={categoryOptions} 
+            createFunction={createCategoryType} 
+            refreshFunction={refreshAdminPage} 
+            deleteFunction={deleteCategoryType} editFunction={editCategoryType}/>
+          <ConfigureList name="SubCategory Types" records={subCategoryOptions} 
+            createFunction={createSubCategoryType} 
+            refreshFunction={refreshAdminPage} 
+            deleteFunction={deleteSubCategoryType} editFunction={editSubCategoryType}/>
       </ScrollView>      
     </SafeAreaView>
   )

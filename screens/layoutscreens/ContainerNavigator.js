@@ -15,8 +15,8 @@ import CustomDrawer from './CustomDrawer'
 import { UserContext } from '../../context/UserContext'
 import GoalsContainer from './GoalsContainer'
 import SkillsContainer from './SkillsContainer'
-import ConfigureScreen from '../featurescreens/lifeplannerscreens/ConfigureScreen'
-
+import ConfigureScreen from '../featurescreens/ConfigureScreen'
+import FinancialPlannerContainer from './FinancialPlannerContainer'
 const ContainerNavigator = () => {
 
   const navigation = useNavigation();
@@ -37,7 +37,7 @@ if(typeof user.name === 'undefined' || !user.name){
     <NavigationContainer independent={true}>
       <Drawer.Navigator 
         drawerContent={props=><CustomDrawer {...props}/>} 
-        initialRouteName="LifePlanner" 
+        initialRouteName="Life Planner" 
         screenOptions={{
           drawerActiveTintColor:'#fff',
           drawerInactiveTintColor:'#fff',
@@ -46,7 +46,8 @@ if(typeof user.name === 'undefined' || !user.name){
           }
           
         }}>
-        <Drawer.Screen name="LifePlanner" component={LifePlannerContainer} />
+        <Drawer.Screen name="Life Planner" component={LifePlannerContainer} />
+        <Drawer.Screen name="Financial Planner" component={FinancialPlannerContainer} />
         <Drawer.Screen name="Goals" component={GoalsContainer} />
         <Drawer.Screen name="Skills" component={SkillsContainer} />
         <Drawer.Screen name="Configure" component={ConfigureScreen} />

@@ -11,7 +11,7 @@ import {Bars3BottomRightIcon,Bars3Icon} from 'react-native-heroicons/solid';
 import { Menu,MenuTrigger,MenuOptions,MenuOption } from 'react-native-popup-menu';
 
 import HabitStackNavigator from '../featurescreens/lifeplannerscreens/SubStackNavigator/HabitStackNavigator'
-import ConfigureScreen from '../featurescreens/lifeplannerscreens/ConfigureScreen';
+import ConfigureScreen from '../featurescreens/ConfigureScreen';
 import ProfileScreen from '../featurescreens/profilescreens/ProfileScreen';
 import TaskStackNavigator from '../featurescreens/lifeplannerscreens/SubStackNavigator/TaskStackNavigator'
 import JournalStackNavigator from '../featurescreens/lifeplannerscreens/SubStackNavigator/JournalStackNavigator'

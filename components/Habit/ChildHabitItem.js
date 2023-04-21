@@ -4,9 +4,6 @@ import { UserContext } from '../../context/UserContext';
 import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import { completeHabit, deleteHabit} from '../../api/HabitAPI';
-import HabitDescription from './HabitDescription';
-import ChildHabitItem from './ChildHabitItem';
-import AddChildHabitForm from './AddChildHabitForm';
 // import AddChildHabitForm from './AddChildHabitForm';
 import {PlusCircleIcon,MinusCircleIcon,PencilIcon,XCircleIcon,ArrowTopRightOnSquareIcon,
      PlusIcon, TrashIcon, WalletIcon}  

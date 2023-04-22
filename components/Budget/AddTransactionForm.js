@@ -1,5 +1,5 @@
 import { View, Text,TouchableOpacity,CheckBox } from 'react-native'
-import React, { useState,useContext,useEffect }  from 'react'
+import React, { useState,useContext,useEffect,useNavigation }  from 'react'
 import { TextInput } from 'react-native-gesture-handler'
 import { UserContext } from '../../context/UserContext';
 import { createTransaction } from '../../api/TransactionAPI';
@@ -24,6 +24,7 @@ const AddTransactionForm = (props) => {
 		await createTransaction(config,'Bearer '+user.accessToken,name,cost,
     props.expenseName,accountName,props.categoryName,props.subCategoryName,
     subAccountName);
+    props.refreshFunction(config,'Bearer '+user.accessToken)
 	}
 
 

@@ -71,7 +71,8 @@ const BudgetDescription = () => {
     const {subCategories,subCategoryOptions} = await getTotalSubCategories(backend_url,bearerToken);
     setExpenseOptions(expenseOptions);  
     setCategoryOptions(categoryOptions);    
-    setSubCategoryOptions(subCategoryOptions);    
+    setSubCategoryOptions(subCategoryOptions);
+    setShowTransactionForm(false); 
   }
 
   useEffect(() => {
@@ -122,7 +123,8 @@ const BudgetDescription = () => {
         </View>
         {showTransactionForm?
         <AddTransactionForm cost={costState} expenseName={expenseNameState}
-        categoryName={categoryNameState} subCategoryName={subCategoryNameState}/>:null}
+        categoryName={categoryNameState} subCategoryName={subCategoryNameState} 
+        refreshFunction={refreshBudgetDescriptionPage}/>:null}
         <View>
           <View className="flex-row bg-gray-800 py-2">
             <Text className="text-white text-xl">id : {id}</Text>

@@ -63,6 +63,7 @@ const TransactionList = (props) => {
     setSubCategoryOptions(subCategoryOptions);    
     setDateFrom(startOfMonth(new Date()));
     setDateTo(endOfMonth(new Date()))
+    setShowAddTransaction(false);
     await refreshTransactions(backend_url,bearerToken,expenses,accounts,
       categories,subCategories,dateFrom,dateTo)
   }

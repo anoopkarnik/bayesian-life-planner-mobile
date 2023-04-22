@@ -6,30 +6,54 @@ import { createTransaction } from '../../api/TransactionAPI';
 import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import SelectPicker from 'react-native-form-select-picker';
+import { getTotalAccounts,getTotalExpenses,
+getTotalCategories,getTotalSubCategories } from '../../api/AdminAPI';
+import { getAccounts } from '../../api/AccountAPI';
 
 const AddTransactionForm = (props) => {
 
-  const [name, setName] = useState('');
-	const [startDate, setStartDate] = useState(new Date());
+	const [name, setName] = useState('');
+	const [cost, setCost] = useState('');
+  const [expenseName,setExpenseName] = useState('');
+  const [categoryName,setCategoryName] = useState('');
+  const [subCategoryName,setSubCategoryName] = useState('');
+	const [accountName, setAccountName] = useState('');
+	const [subAccountName, setSubAccountName] = useState('');
+  const [expenseOptions,setExpenseOptions] = useState([]);
+  const [categoryOptions,setCategoryOptions] = useState([]);
+  const [subCategoryOptions,setSubCategoryOptions] = useState([])
+  const [accountOptions,setAccountOptions] = useState([])
+  const [subAccountOptions,setSubAccountOptions] = useState([]);
 	const {user, setUser} = useContext(UserContext);
 	const {config} = useContext(ConfigContext);
-	const [hidden, setHidden] = useState(false);
-	const {showActive} = useContext(ActiveContext);
-  const {text,setText} = useState('');
 
    const onSubmit =async () =>{
-
-		await createTransaction(config, 'Bearer '+user.accessToken,name,props.name,
-		text,hidden);
-		await props.refreshFunction(config,'Bearer '+user.accessToken,props.name);
-    
+		await createTransaction(config,'Bearer '+user.accessToken,name,cost,
+    expenseName,accountName,categoryName,subCategoryName,
+    subAccountName);
+    props.refreshFunction(config,'Bearer '+user.accessToken)
 	}
 
-  const handleStartDate = (date) => {
-    setStartDate(date)
-  };
-  const handleDueDate = (date) => {
-    setDueDate(date)
+
+  const refreshTransactionForm = async(backend_url,bearerToken) =>{
+    const {accounts,accountOptions} = await getTotalAccounts(backend_url,bearerToken);
+    const {expenses,expenseOptions} = await getTotalExpenses(backend_url,bearerToken);
+    const {categories,categoryOptions} = await getTotalCategories(backend_url,bearerToken);
+    const {subCategories,subCategoryOptions} = await getTotalSubCategories(backend_url,bearerToken);
+    setAccountOptions(accountOptions);      
+    setExpenseOptions(expenseOptions);
+    setCategoryOptions(categoryOptions);
+    setSubCategoryOptions(subCategoryOptions)
+  }
+
+  useEffect(() => {
+    refreshTransactionForm(config,'Bearer '+user.accessToken);
+  }, []);
+
+  const handleAccountNameChange = async(value) => {
+    setAccountName(value)
+    const record = await getAccounts(config,'Bearer '+user.accessToken,value);
+    setSubAccountOptions(record)
   };
 
   return (
@@ -38,14 +62,48 @@ const AddTransactionForm = (props) => {
         <TextInput className="flex-1 mx-2 w-1/2 bg-white p-2" placeholder="Name"  
           value={name} Name='text' 
           onChangeText={text => setName(text)}/>
-      <SelectPicker className="flex-1 mx-2 w-1/2 bg-white p-2"
-          onValueChange={(value)=>setHidden(value)} 
-          placeholder="Hidden" selected={hidden} >
-              <SelectPicker.Item className="text-gray-400 " 
-              label="Yes" value="true"/>
-              <SelectPicker.Item className="text-gray-400 " 
-              label="No" value="false"/>
-        </SelectPicker>
+        <TextInput className="flex-1 mx-2 w-1/2 bg-white p-2" placeholder="Cost"  
+          value={cost} Name='text' 
+          onChangeText={text => setCost(text)}/>
+      </View>
+      <View className=" flex-row ">
+        <SelectPicker onValueChange={(value)=>setCategoryName(value)} 
+            selected={categoryName?.toString()} placeholder="Category"
+            className="flex-1 mx-2 w-1/2 bg-white text-xl">
+              {categoryOptions?.map(option=>(
+                <SelectPicker.Item label={option.name} value={option.name}/>
+              ))}
+        </SelectPicker> 
+        <SelectPicker onValueChange={(value)=>setSubCategoryName(value)} 
+            selected={subCategoryName?.toString()} placeholder="Sub Category"
+            className="flex-1 mx-2 w-1/2 bg-white text-xl">
+              {subCategoryOptions?.map(option=>(
+                <SelectPicker.Item label={option.name} value={option.name}/>
+              ))}
+        </SelectPicker> 
+        <SelectPicker onValueChange={(value)=>setExpenseName(value)} 
+            selected={expenseName?.toString()} placeholder="Expense"
+            className="flex-1 mx-2 w-1/2 bg-white text-xl">
+              {expenseOptions?.map(option=>(
+                <SelectPicker.Item label={option.name} value={option.name}/>
+              ))}
+        </SelectPicker> 
+      </View>
+      <View className=" flex-row ">
+        <SelectPicker onValueChange={handleAccountNameChange} 
+            selected={accountName?.toString()} placeholder="Account Type"
+            className="flex-1 mx-2 w-1/2 bg-white text-xl">
+              {accountOptions?.map(option=>(
+                <SelectPicker.Item label={option.name} value={option.name}/>
+            ))}
+        </SelectPicker> 
+        <SelectPicker onValueChange={(value)=>setSubAccountName(value)} 
+            selected={subAccountName?.toString()} placeholder="Account"
+            className="flex-1 mx-2 w-1/2 bg-white text-xl">
+              {subAccountOptions?.map(option=>(
+                <SelectPicker.Item label={option.name} value={option.name}/>
+              ))}
+          </SelectPicker> 
       </View>
       <View className="flex">
         <TouchableOpacity onPress={onSubmit} className="items-center mx-2 my-3 bg-gray-300 p-2 ">

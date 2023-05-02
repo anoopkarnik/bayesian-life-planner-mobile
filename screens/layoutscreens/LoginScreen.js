@@ -47,8 +47,8 @@ const LoginScreen = () => {
     const [isLoggedIn, setLoggedIn] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const {config} = useContext(ConfigContext);
-    const [name,setName] = useState('anoop');
-    const [password,setPassword] = useState('dasika#1992');
+    const [name,setName] = useState('');
+    const [password,setPassword] = useState('password');
     const {setUser} = useAuth();
     const {user} = useContext(UserContext);
     const [expoPushToken, setExpoPushToken] = useState('');
@@ -96,13 +96,6 @@ const LoginScreen = () => {
 
     const GodLogin = async() =>{
         const user = await signin(config,"God","password")
-        setUser(user);
-        setLoggedIn(true);
-        navigation.navigate("Container")
-    }
-
-    const HarryPotterLogin = async() =>{
-        const user = await signin(config,"HarryPotter","password")
         setUser(user);
         setLoggedIn(true);
         navigation.navigate("Container")
@@ -188,9 +181,6 @@ const LoginScreen = () => {
             <View className="flex-row justify-center items-center">
                 <TouchableOpacity onPress={guestLogin} className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
                     <Text className="text-white"> Guest</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={HarryPotterLogin} className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
-                    <Text className="text-white"> Harry Potter</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={GodLogin} className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
                     <Text className="text-white"> God</Text>

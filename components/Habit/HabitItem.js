@@ -1,4 +1,4 @@
-import { View, Text,TextInput,TouchableOpacity,RefreshControl } from 'react-native'
+import { View, Text,TextInput,TouchableOpacity,RefreshControl,Modal } from 'react-native'
 import React,{useState,useContext, useCallback} from 'react'
 import { UserContext } from '../../context/UserContext';
 import { ConfigContext } from '../../context/ConfigContext';
@@ -50,9 +50,23 @@ const HabitItem = (props) => {
 	const daysLeft = (dueDateTime2-currentTime2)/one_day
 	const {showActive} = useContext(ActiveContext);
     const navigation = useNavigation();
+    const [showPopup,setShowPopup] = useState(false);
 
-	const onComplete = async() => {
-		await completeHabit(config,'Bearer '+user.accessToken,props.record.id)
+    const onComplete = async() => {
+        setShowPopup(false)
+		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Complete')
+		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive)
+	}
+
+	const onAtomicComplete = async() => {
+        setShowPopup(false)
+		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Atomic')
+		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive)
+	}
+
+	const onConditionalComplete = async() => {
+        setShowPopup(false)
+		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Condition')
 		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive)
 	}
 
@@ -92,19 +106,36 @@ const HabitItem = (props) => {
                 <Text className="text-l">
                     {props.record.streak}
                     <TouchableOpacity>
-                        <PlusIcon color="black" size={20} onPress={onComplete}/>
+                        <PlusIcon color="black" size={20} onPress={()=>setShowPopup(true)}/>
                     </TouchableOpacity>
                     {props.record.totalTimes}
                 </Text>
             </View>
-            <View className="w-1/5">
+            <View className="justify-center align-middle">
+                <Modal animationType="slide" transparent={true} visible={showPopup} 
+                onRequestClose={()=>setShowPopup(false)}>
+                    <View className="bg-[#556581] justify-center align-middle m-20">
+                        <Text className="text-white text-lg">Select Completion Type</Text>
+                        <TouchableOpacity onPress={onComplete} className="bg-gray-500">
+                            <Text className="text-white">Complete </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={onAtomicComplete} className="bg-gray-500">
+                            <Text className="text-white">Atomic</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={onConditionalComplete} className="bg-gray-500">
+                            <Text className="text-white">Conditional</Text>
+                        </TouchableOpacity>
+                    </View>
+                </Modal>
+            </View>
+            {/* <View className="w-1/5">
               <TouchableOpacity
                    onPress={()=>{setShowAddHabit(!showAddHabit)}}>
                   <PlusCircleIcon color="white" size={30}/>
               </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
-        {showChildHabits?
+        {/* {showChildHabits?
           <View>
             {props.record.habitResponses.map((record)=>(
                 <ChildHabitItem key={record.id} record={record} refreshFunction={props.refreshFunction}/>
@@ -112,7 +143,7 @@ const HabitItem = (props) => {
           </View>:null}
         {showAddHabit?
           <AddChildHabitForm refreshFunction={refreshForm} 
-          name={props.record.name} type={props.record.habitTypeName}/>:null}
+          name={props.record.name} type={props.record.habitTypeName}/>:null} */}
 
     </View>
   )

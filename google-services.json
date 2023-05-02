@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "605338426121",
+    "project_id": "bayesian-planner",
+    "storage_bucket": "bayesian-planner.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:605338426121:android:b1e488ae42b61e9a44d1d8",
+        "android_client_info": {
+          "package_name": "com.bayesian.lifeplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "605338426121-itcv78sq8q0kl1968420u9kiicvs0jv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYYE8_0ZehkR7Iz2vygmdBUuVWfFBYokY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "605338426121-itcv78sq8q0kl1968420u9kiicvs0jv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

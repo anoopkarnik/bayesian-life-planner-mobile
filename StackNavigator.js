@@ -5,7 +5,6 @@ import LoginScreen from './screens/layoutscreens/LoginScreen';
 import SignupScreen from './screens/layoutscreens/SignupScreen';
 import ForgotPasswordScreen from './screens/layoutscreens/ForgotPasswordScreen';
 import ContainerNavigator from './screens/layoutscreens/ContainerNavigator';
-
 const Stack = createNativeStackNavigator();
 
 const StackNavigator= ()=> {

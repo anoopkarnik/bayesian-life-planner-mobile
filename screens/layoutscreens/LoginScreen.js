@@ -1,5 +1,5 @@
-import {View, Text,SafeAreaView ,TextInput,Button,Alert,TouchableOpacity} from 'react-native'
-import React, { useState,useContext,useEffect } from 'react'
+import {View, Text,SafeAreaView ,TextInput,Button,Alert,TouchableOpacity,Platform} from 'react-native'
+import React, { useState,useContext,useEffect,useRef } from 'react'
 import { useNavigation } from '@react-navigation/native'
 import { useLayoutEffect } from 'react'
 import * as Animatable from 'react-native-animatable';
@@ -9,17 +9,71 @@ import { useAuth } from '../../context/UserContext';
 import { ScrollView } from 'react-native-gesture-handler';
 import { UserContext } from '../../context/UserContext';
 import { EyeIcon } from 'react-native-heroicons/solid';
+import * as Notifications from "expo-notifications";
+import * as Device from "expo-notifications";
+import { useNotifications } from '../../hooks/useNotifications';
 
+
+Notifications.setNotificationHandler({
+    handleNotification:async() =>({
+        shouldShowAlert:true,
+        shouldPlaySound:true,
+        shouldSetBadge:true,
+    })
+})
+
+async function sendPushNotification(expoPushToken) {
+    const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: 'Original Title',
+      body: 'And here is the body!',
+      data: { someData: 'goes here' },
+    };
+  
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+  }
 
 const LoginScreen = () => {
     const navigation = useNavigation();
     const [isLoggedIn, setLoggedIn] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const {config} = useContext(ConfigContext);
-    const [name,setName] = useState('');
-    const [password,setPassword] = useState('password');
+    const [name,setName] = useState('anoop');
+    const [password,setPassword] = useState('dasika#1992');
     const {setUser} = useAuth();
     const {user} = useContext(UserContext);
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const [notification, setNotification] = useState(false);
+    const notificationListener = useRef();
+    const responseListener = useRef();
+    const {registerForPushNotificationsAsync} = useNotifications();
+  
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token=>setExpoPushToken(String(token)));
+        alert(expoPushToken)
+  
+      notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+        setNotification(notification);
+      });
+  
+      responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        console.log(response);
+      });
+  
+      return () => {
+        Notifications.removeNotificationSubscription(notificationListener.current);
+        Notifications.removeNotificationSubscription(responseListener.current);
+      };
+    }, []);
 
     const onSubmit = async()=>{
 		try{
@@ -123,8 +177,13 @@ const LoginScreen = () => {
                      className="bg-black p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
                         <Text className="text-white"> SIGNUP </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity  onPress={async () => {await sendPushNotification(expoPushToken);}}
+                     className="bg-black p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">
+                        <Text className="text-white"> Push Notification</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
+
             <Text className="text-white text-2xl flex-1 justify-center items-center text-center my-5 p-3">Existing profiles</Text>
             <View className="flex-row justify-center items-center">
                 <TouchableOpacity onPress={guestLogin} className="p-3 my-5 mx-3 justify-center items-center border-solid border-2 border-violet-400">

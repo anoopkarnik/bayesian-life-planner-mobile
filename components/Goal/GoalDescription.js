@@ -3,7 +3,7 @@ import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
 } from 'react-native'
 import React, { useState,useContext,useEffect } from 'react'
 import SelectPicker from 'react-native-form-select-picker';
-import { deleteGoal } from '../../api/GoalAPI';
+import { deleteGoal, getRule } from '../../api/GoalAPI';
 import { useLayoutEffect } from 'react';
 import { useNavigation,useRoute } from '@react-navigation/native';
 import { ArrowLeftIcon } from 'react-native-heroicons/solid';
@@ -13,7 +13,10 @@ import { UserContext } from '../../context/UserContext';
 import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import RuleList from '../RuleEngine/RuleList';
+import AddCompletedRuleForm from './AddCompletedRuleForm';
+import {PlusCircleIcon} from 'react-native-heroicons/solid';
+import RuleItem from './RuleItem';
+import AddWorkRuleForm from './AddWorkRuleForm';
 
 const GoalDescription = () => {
   const {params:{id,createdAt,updatedAt,name,dueDate,
@@ -23,6 +26,10 @@ const GoalDescription = () => {
     const {config} = useContext(ConfigContext);
     const [createAtState,setCreatedAt] = useState(createdAt);
     const [updatedAtState,setUpdatedAt] = useState(updatedAt);
+    const [showAddCompletedRule,setShowAddCompletedRule] = useState(false);
+    const [showAddWorkRule,setShowAddWorkRule] = useState(false);
+    const [completedRecord, setCompletedRecord] = useState('');
+    const [workRecord, setWorkRecord] = useState('');
     const [nameState,setName] = useState(name);
     const [timeTakenState,setTimeTaken] = useState(timeTaken);
     const [startDateState, setStartDate] = useState(new Date(startDate));
@@ -95,14 +102,64 @@ const GoalDescription = () => {
       navigation.navigate("Normal",{goalTypeName2})
 	}
 
+  const refreshRules = async(backend_url,bearerToken,id) => {
+    const completedRecordTemp = await getRule(config,'Bearer '+user.accessToken,
+    id,"Completed");
+    const workRecordTemp = await getRule(config,'Bearer '+user.accessToken,
+    id,"Work");
+    setCompletedRecord(completedRecordTemp);
+    setWorkRecord(workRecordTemp);
+    setShowAddWorkRule(false);
+    setShowAddCompletedRule(false);
+  }
+
+
+  useEffect(() => {
+    refreshRules(config,'Bearer '+user.accessToken,
+    id);
+  }, []);
+
 
   return (
     <SafeAreaView className="bg-black flex-1">
       <ScrollView>
-        <View className='relative'>
+        <View className='relative my-5'>
           <TouchableOpacity onPress={navigation.goBack}>
             <ArrowLeftIcon size={20} color='white'/>
           </TouchableOpacity>
+        </View>
+        <View className="flex-row py-3 px-2 bg-[#556581]">
+          <Text className="mr-2 text-xl text-white">Completion Rule</Text>
+          {completedRecord.name?null:
+          <TouchableOpacity
+             onPress={()=>{setShowAddCompletedRule(!showAddCompletedRule)}}>
+              <PlusCircleIcon color="white" size={30}/>
+              </TouchableOpacity>}
+        </View>
+        <View>
+            {showAddCompletedRule?
+            <AddCompletedRuleForm refreshFunction={refreshRules} id={id}/>:null}
+        </View>
+        <View className="my-5 mx-1 flex-row align-middle">
+          {completedRecord.name?
+          <RuleItem name={completedRecord.name} id={id} type="Completed" 
+        refreshFunction={refreshRules}/>:null}
+        </View>
+        <View className="flex-row py-3 px-2 bg-[#556581]">
+            <Text className="mr-3 text-xl text-white">Working Rule</Text>
+            {workRecord.name?null:<TouchableOpacity
+             onPress={()=>{setShowAddWorkRule(!showAddWorkRule)}}>
+              <PlusCircleIcon color="white" size={30}/>
+              </TouchableOpacity>}
+        </View>
+        <View>
+            {showAddWorkRule?
+            <AddWorkRuleForm refreshFunction={refreshRules} id={id}/>:null}
+        </View>
+        <View className="my-5 mx-1 flex-row align-middle">
+          {workRecord.name?
+          <RuleItem name={workRecord.name} id={id} type="Work" 
+        refreshFunction={refreshRules}/>:null}
         </View>
         <View className="my-5 mx-1 flex-row align-middle">
           <TouchableOpacity onPress={onUpdate}
@@ -241,7 +298,6 @@ const GoalDescription = () => {
                 onChangeText={text => setDescription(text)}/>:
                 <Text className="text-white text-xl">{descriptionState}</Text>}
         </View>
-        <RuleList id={id} goalTypeName={goalTypeName} />
       </ScrollView>
     </SafeAreaView>
   )

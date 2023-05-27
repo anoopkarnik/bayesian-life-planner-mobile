@@ -59,7 +59,7 @@ const LoginScreen = () => {
   
     useEffect(() => {
         registerForPushNotificationsAsync().then(token=>setExpoPushToken(String(token)));
-        alert(expoPushToken)
+        // alert(expoPushToken)
   
       notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
         setNotification(notification);

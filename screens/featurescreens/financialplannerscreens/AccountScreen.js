@@ -40,7 +40,7 @@ import { View,Butchildton, Text,SafeAreaView,Image, TextInput, ScrollView,
     const refreshAccountPage = async(backend_url,bearerToken) =>{
       const {accounts,accountOptions} = await getTotalAccounts(backend_url,bearerToken);
       const accountBalances = await getTotalAccountBalances(backend_url,bearerToken)
-      setAccounts(accounts);
+      setAccounts(accountOptions);
       setAccountOptions(accountBalances);
     }
   
@@ -51,7 +51,7 @@ import { View,Butchildton, Text,SafeAreaView,Image, TextInput, ScrollView,
       <SafeAreaView className="bg-black flex-1">
         <ScrollView>
           <View>
-            {chunkArray(accountOptions, 2).map(accountOptions =>
+            {chunkArray(accountOptions, 1).map(accountOptions =>
               <View className="flex-row align-middle justify-center">
                 {accountOptions?.map(account=>
                   <View className="bg-green-200 rounded-xl py-3 px-2 my-4 mx-3">
@@ -65,7 +65,7 @@ import { View,Butchildton, Text,SafeAreaView,Image, TextInput, ScrollView,
           </View>
           <View>
             {accounts?.map((account)=>(
-              <AccountList account={account} refreshFunction={refreshAccountPage}/>
+              <AccountList record={account} refreshFunction={refreshAccountPage}/>
             ))}
           </View>
         </ScrollView>

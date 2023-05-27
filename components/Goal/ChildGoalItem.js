@@ -54,7 +54,7 @@ const ChildGoalItem = (props) => {
   return (
     <View className="flex">
         <View className="flex flex-row flex-1  mx-6">
-            <View className="w-3/5 flex-row">
+            <View className="flex-1 flex-row">
                 {props.record.goalResponses.length>0?<>
                 {showChildGoals?
                     <MinusCircleIcon color="black" height={30} width={20}
@@ -68,7 +68,7 @@ const ChildGoalItem = (props) => {
                     onPress={onShowDescription} onClick={onShowDescription}/>
                 </TouchableOpacity>
             </View>
-            <View className="w-1/5">
+            <View className="mr-6">
               <TouchableOpacity
                    onPress={()=>{setShowAddGoal(!showAddGoal)}}>
                   <PlusCircleIcon color="white" size={30}/>

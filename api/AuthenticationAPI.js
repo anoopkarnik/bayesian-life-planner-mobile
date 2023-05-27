@@ -34,3 +34,14 @@ export const modifyPassword = async(backend_url,bearerToken,name,
       body: JSON.stringify({name,oldPassword,newPassword}),
     })
 }
+
+export const modifyProfileParams = async(backend_url,bearerToken,panNo)=>{
+  await fetch(backend_url+'/auth/modifyParams', {
+      method: 'PATCH',
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization':bearerToken
+      },
+      body: JSON.stringify({panNo}),
+    })
+}

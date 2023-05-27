@@ -10,7 +10,7 @@ import {PlusCircleIcon,MinusCircleIcon,PencilIcon,XCircleIcon,ArrowTopRightOnSqu
 from "react-native-heroicons/solid";
 import { useNavigation } from '@react-navigation/native';
 
-const HabitItem = (props) => {
+const ChildHabitItem = (props) => {
     var one_day = 1000*60*60*24
     var id = props.record.id;
     var createdAt = props.record.createdAt;
@@ -107,4 +107,4 @@ const HabitItem = (props) => {
   )
 }
 
-export default HabitItem
+export default ChildHabitItem

@@ -13,7 +13,6 @@ import { UserContext } from '../../context/UserContext';
 import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import RuleList from '../RuleEngine/RuleList';
 
 const HabitDescription = () => {
   const {params:{id,createdAt,updatedAt,name,scheduleType,

@@ -24,6 +24,10 @@ const AccountItem = (props) => {
     var hidden = props.record.hidden;
     var completed = props.record.completed;
     var balance = props.record.balance;
+    var nomineeName = props.record.nomineeName;
+    var maturityDate = props.record.maturityDate;
+    var stockCode = props.record.stockCode;
+    var schemeCode = props.record.schemeCode
 
 	const [showDescription, setShowDescription] =useState(false);
 	const [showAddAccount,setShowAddAccount] = useState(false);
@@ -35,7 +39,7 @@ const AccountItem = (props) => {
 	const onShowDescription = async() =>{
 		navigation.navigate("Description",{id,createdAt,updatedAt,name,startDate,
       accountTypeName,description,balance,liquidity,freeLiquidity,
-      active,hidden,completed})
+      active,hidden,completed,nomineeName,maturityDate,stockCode,schemeCode})
 	}
 
      

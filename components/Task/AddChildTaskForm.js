@@ -79,19 +79,14 @@ const AddChildTaskForm = (props) => {
     setDueDate(date)
   };
 
+  const timeOfDayList = Array.from(Array(24).keys());
+
   return (
     <View className="py-3 px-2 bg-gray-600">
       <View className=" flex-row ">
         <TextInput className="flex-1 mx-2 w-1/3 bg-white p-2" placeholder="Name"  
           value={name} Name='text' 
           onChangeText={text => setName(text)}/>
-        <TextInput className="flex-1 mx-2 w-1/3 bg-white p-2"  placeholder="Time Taken (in mins)"  
-          value={timeTaken} Name='text' 
-          onChangeText={text => setTimeTaken(text)}/>
-        <TextInput 
-          className="flex-1 mx-2 w-1/3 bg-white p-2"
-          placeholder="Every"  value={every} Name='text' 
-          onChangeText={text => setEvery(String(text))}/>
       </View>
       <View className="flex-row my-2">
         <SelectPicker className="flex-1 mx-2 w-1/2 bg-white p-2"
@@ -127,11 +122,10 @@ const AddChildTaskForm = (props) => {
             ))}
           </View>:null}
       <View className="flex-row">
-        <TouchableOpacity onPress={()=>setShowStartDate(!showStartDate)}
-        className="flex-1 mx-2 w-1/2 bg-white p-2" placeholder="Start Date">
-          <Text className="text-gray-400">{startDate.getDate()}-
-          {startDate.getMonth()}-{startDate.getFullYear()}</Text>  
-        </TouchableOpacity>
+      <TextInput 
+          className="flex-1 mx-2 w-1/3 bg-white p-2"
+          placeholder="Every"  value={every} Name='text' 
+          onChangeText={text => setEvery(String(text))}/>
         <TouchableOpacity onPress={()=>setShowDueDate(!showDueDate)}
         className="flex-1 mx-2 w-1/2 bg-white p-2" placeholder="Due Date">
           <Text className="text-gray-400">{dueDate.getDate()}-

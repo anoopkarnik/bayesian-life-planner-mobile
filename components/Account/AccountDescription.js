@@ -18,7 +18,7 @@ getTotalCategories,getTotalSubCategories } from '../../api/AdminAPI';
 const AccountDescription = () => {
   const {params:{id,createdAt,updatedAt,name,startDate,
     accountTypeName,description,balance,liquidity,freeLiquidity,
-    active,hidden,completed}} = useRoute();
+    active,hidden,completed,nomineeName,maturityDate,stockCode,schemeCode}} = useRoute();
     const {user} = useContext(UserContext);
     const {config} = useContext(ConfigContext);
     const [nameState,setName] = useState(name);
@@ -32,6 +32,11 @@ const AccountDescription = () => {
     const [liquidityState,setLiquidity] = useState(liquidity);
     const [freeLiquidityState,setFreeLiquidity] = useState(freeLiquidity);
     const [startDateState,setStartDate] = useState(startDate);
+    const [nomineeNameState, setNomineeName] = useState(nomineeName);
+    const [maturityDateState, setMaturityDate] = useState(maturityDate);
+    const [stockCodeState, setStockCode] = useState(stockCode);
+    const [schemeCodeState, setSchemeCode] = useState(schemeCode);
+    const [showMaturityDate, setShowMaturityDate] = useState(false);
 
     const onUpdate = async() =>{
       // await props.refreshFunction(config,'Bearer '+ user.accessToken)
@@ -39,7 +44,8 @@ const AccountDescription = () => {
         await modifyAccountParams(config, 'Bearer '+user.accessToken,
         id,createdAt,updatedAt,nameState,startDateState,
         accountTypeNameState,descriptionState,balanceState,liquidityState,
-        freeLiquidityState,activeState,hiddenState,completedState,user.id);
+        freeLiquidityState,activeState,hiddenState,completedState,user.id,nomineeNameState,
+        maturityDateState,stockCodeState,schemeCodeState);
         setIsEditing(false);
       }
       else{
@@ -73,6 +79,10 @@ const AccountDescription = () => {
 			await deleteAccount(config,'Bearer '+user.accessToken,id)
       navigation.navigate("Normal")
 	}
+
+  const handleMaturityDate = (date) => {
+    setMaturityDate(date)
+  };
 
   return (
     <SafeAreaView className="bg-black flex-1">
@@ -164,6 +174,53 @@ const AccountDescription = () => {
                     <SelectPicker.Item label="false" value="false"/>
                   </SelectPicker> : 
                   <Text className="text-white text-xl">{hiddenState?.toString()}</Text>}
+          </View>
+          {isEditing?
+          <View className='flex-row bg-gray-800 py-2'>
+            <Text className="text-white text-xl ">Maturity Date: </Text>
+              <TouchableOpacity onPress={()=>setShowMaturityDate(!showMaturityDate)}
+              className="flex-1 bg-white text-xl" placeholder="Start Date">
+                <Text className="text-xl">{formatDate(new Date(maturityDateState))}</Text>  
+              </TouchableOpacity>       
+            {showMaturityDate?
+              <DateTimePicker
+              isVisible={showMaturityDate}
+              mode="date"
+              onConfirm={handleMaturityDate}
+              onCancel={()=>showMaturityDate(false)}
+            />
+         :null}
+          </View>:
+          <View className="flex-row bg-gray-800 py-2">
+            <Text className="text-white text-xl">Maturity Date : {formatDate(new Date(maturityDateState))}
+              </Text>
+          </View>}
+          <View className="flex-row bg-gray-800 py-2">
+            <Text className="text-white text-xl mr-2">Nominee Name : </Text>
+            {isEditing?
+            <TextInput 
+            className="flex-1 bg-white text-xl"
+            placeholder={nomineeNameState}  value={nomineeNameState} Name='text' 
+            onChangeText={text => setNomineeName(text)}/>:
+            <Text className="text-white text-xl">{nomineeNameState}</Text>}
+          </View>
+          <View className="flex-row bg-gray-800 py-2">
+            <Text className="text-white text-xl mr-2">Stock Code : </Text>
+            {isEditing?
+            <TextInput 
+            className="flex-1 bg-white text-xl"
+            placeholder={stockCodeState}  value={stockCodeState} Name='text' 
+            onChangeText={text => setStockCode(text)}/>:
+            <Text className="text-white text-xl">{stockCodeState}</Text>}
+          </View>
+          <View className="flex-row bg-gray-800 py-2">
+            <Text className="text-white text-xl mr-2">Scheme Code : </Text>
+            {isEditing?
+            <TextInput 
+            className="flex-1 bg-white text-xl"
+            placeholder={schemeCodeState}  value={schemeCodeState} Name='text' 
+            onChangeText={text => setSchemeCode(text)}/>:
+            <Text className="text-white text-xl">{schemeCodeState}</Text>}
           </View>
         </View>
         <View className="align-center">

@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import GoalScreen from '../GoalScreen';
-import GoalDescription from '../../../../components/Goal/GoalDescription';
 import { useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
+import CriteriaDescription from '../../../../components/RuleEngine/Criteria/CriteriaDescription';
+import CriteriaScreen from '../CriteriaScreen';
 
 const Stack = createNativeStackNavigator();
 
-const GoalStackNavigator= ()=> {
+const CriteriaStackNavigator= ()=> {
     const navigation = useNavigation();
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -16,11 +16,11 @@ const GoalStackNavigator= ()=> {
     }, [])
   return (
     <Stack.Navigator>
-        <Stack.Screen name="Normal" component={GoalScreen}/>
-        <Stack.Screen name="Description" component={GoalDescription}/>    
+        <Stack.Screen name="Normal" component={CriteriaScreen}/>
+        <Stack.Screen name="Description" component={CriteriaDescription}/>    
     </Stack.Navigator>
   );
 }
 
-export default GoalStackNavigator;
+export default CriteriaStackNavigator;
 

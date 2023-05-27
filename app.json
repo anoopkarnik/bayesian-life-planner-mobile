@@ -2,7 +2,7 @@
   "expo": {
     "name": "bayesian-life-planner-mobile",
     "slug": "bayesianLifePlanner",
-    "version": "1.0.1",
+    "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "scheme":"com.bayesian.lifeplanner",
@@ -21,7 +21,7 @@
     "android": {
       "package": "com.bayesian.lifeplanner",
       "googleServicesFile":"./google-services.json",
-      "versionCode": 12,
+      "versionCode": 17,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"

@@ -13,10 +13,14 @@ import { Menu,MenuTrigger,MenuOptions,MenuOption } from 'react-native-popup-menu
 
 import GoalStackNavigator from '../featurescreens/goalscreens/SubStackNavigator/GoalStackNavigator'
 import { ActiveContext } from '../../context/ActiveContext';
+import CriteriaStackNavigator from '../featurescreens/goalscreens/SubStackNavigator/CriteriaStackNavigator';
+import RuleEngineStackNavigator from '../featurescreens/goalscreens/SubStackNavigator/RuleEngineStackNavigator';
 
 
 const GoalsContainer = () => {
     const {showActive,setShowActive} = useContext(ActiveContext)
+    const criteriaName = 'Criteria';
+    const ruleEngineName = 'Rule Engine';
     const goalsName = 'Goals';
     const Tab = createBottomTabNavigator();
     const {user} = useContext(UserContext);
@@ -66,11 +70,20 @@ const GoalsContainer = () => {
                     if(rn===goalsName){
                         iconName=focused?'trophy':'trophy-outline'
                     } 
+                    else if(rn===criteriaName){
+                        iconName=focused?'hammer':'hammer-outline'
+                    }
+                    else if(rn===ruleEngineName){
+                        iconName=focused?'cog':'cog-outline'
+                    }
                     return <Ionicons name={iconName} size={size} color={"white"}/>
+
                 },
                 
             })}>
                 <Tab.Screen name={goalsName} component={GoalStackNavigator}/>
+                <Tab.Screen name={criteriaName} component={CriteriaStackNavigator}/>
+                <Tab.Screen name={ruleEngineName} component={RuleEngineStackNavigator}/>
 
             </Tab.Navigator>
         </NavigationContainer>

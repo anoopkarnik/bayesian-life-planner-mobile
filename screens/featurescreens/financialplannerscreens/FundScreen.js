@@ -65,16 +65,16 @@ import { View,Butchildton, Text,SafeAreaView,Image, TextInput, ScrollView,
           <View className="flex-row align-middle justify-center">
             <View className="flex-1 bg-gray-400 py-3 px-2">
               <Text>
-                Amount Available to invest in funds (in Rs): 
-                {String(fundSummary.amountAvailable)}
+                Emergency Amount Avalaible (in Rs): 
+                {String(fundSummary.emergencyAmountAvailable)}
               </Text>
             </View> 
           </View>
           <View className="flex-row align-middle justify-center">
             <View className="flex-1 bg-gray-400 py-3 px-2">
               <Text>
-                Amount Allocated in funds (in Rs): 
-                {String(fundSummary.amountAllocated)}
+                Amount Available for Funds (in Rs): 
+                {String(fundSummary.fundsAmountAvailable)}
               </Text>
             </View> 
           </View>

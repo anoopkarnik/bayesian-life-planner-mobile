@@ -7,6 +7,7 @@ import { ActiveContext } from '../../../context/ActiveContext';
 import SelectPicker from 'react-native-form-select-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { createCriteriaSet,createRule,createRuleSet, getAllCriteria, getAllCriteriaSet, getAllRule, modifyCriteriaSetParams, modifyRuleParams, modifyRuleSetParams } from '../../../api/RuleEngineAPI';
+import { criteriaOptions } from '../../../variables';
 
 const AddChildRuleEngineForm = (props) => {
 
@@ -17,19 +18,6 @@ const AddChildRuleEngineForm = (props) => {
 	const { config } = useContext(ConfigContext);
 	const [children,setChildren] = useState(props.children)
 	const [criteria,setCriteria] = useState('')
-
-	const criteriaOptions = [
-		{value:'TASK', label: 'Task'},
-		{value:'HABIT', label:'Habit'},
-		{value:'BAD_HABIT',label:'Bad Habit'},
-		{value:'SKILL',label:'Skill'},
-		{value:'STAT',label:'Stat'},
-		{value:'ACCOUNT',label:'Account'},
-		{value:'FUND',label:'Fund'},
-		{value:'BUDGET_PLAN',label:'Budget Plan'},
-		{value:'TRANSACTION',label:'Transaction'},
-		{value:'MONTHLY_BUDGET',label:'Monthly Budget'}
-	  ]
 
 	useEffect(()=>{
 		updateChildren();

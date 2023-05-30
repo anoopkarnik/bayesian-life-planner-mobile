@@ -11,6 +11,7 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
   import { ActiveContext } from '../../../context/ActiveContext';
   import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import CriteriaList from '../../../components/RuleEngine/Criteria/CriteriaList';
+import { criteriaOptions } from '../../../variables';
   
   const CriteriaScreen = () => {
       const navigation = useNavigation();
@@ -18,19 +19,6 @@ import CriteriaList from '../../../components/RuleEngine/Criteria/CriteriaList';
       const {user} = useContext(UserContext);
       const {config} = useContext(ConfigContext);
       const isFocused = useIsFocused();
-
-      const criteriaOptions = [
-        {value:'TASK', label: 'Task'},
-        {value:'HABIT', label:'Habit'},
-        {value:'BAD_HABIT',label:'Bad Habit'},
-        {value:'SKILL',label:'Skill'},
-        {value:'STAT',label:'Stat'},
-        {value:'ACCOUNT',label:'Account'},
-        {value:'FUND',label:'Fund'},
-        {value:'BUDGET_PLAN',label:'Budget Plan'},
-        {value:'TRANSACTION',label:'Transaction'},
-        {value:'MONTHLY_BUDGET',label:'Monthly Budget'}
-      ]
   
       useLayoutEffect(() => {
           navigation.setOptions({

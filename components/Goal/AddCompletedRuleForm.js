@@ -8,6 +8,7 @@ import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import SelectPicker from 'react-native-form-select-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { ruleEngineOptions,criteriaOptions } from '../../variables';
 
 const AddCompletedRuleForm = (props) => {
 
@@ -17,24 +18,6 @@ const AddCompletedRuleForm = (props) => {
 	const [criteriaType,setCriteriaType] = useState('')
 	const [ruleEngineReference,setRuleEngineReference] = useState('')
 	const [ruleEngineReferenceOptions,setRuleEngineReferenceOptions] = useState([])
-	const ruleEngineOptions = [
-		{label:'Criteria',value:'Criteria'},
-		{label:'Criteria Set',value:'Criteria Set'},
-		{label:'Rule', value:'Rule'},
-		{label:'Rule Set', value: 'Rule Set'}
-	]
-	const criteriaOptions = [
-		{value:'TASK', label: 'Task'},
-		{value:'HABIT', label:'Habit'},
-		{value:'BAD_HABIT',label:'Bad Habit'},
-		{value:'SKILL',label:'Skill'},
-		{value:'STAT',label:'Stat'},
-		{value:'ACCOUNT',label:'Account'},
-		{value:'FUND',label:'Fund'},
-		{value:'BUDGET_PLAN',label:'Budget Plan'},
-		{value:'TRANSACTION',label:'Transaction'},
-		{value:'MONTHLY_BUDGET',label:'Monthly Budget'}
-	  ]
 
 	const onSubmit = async() =>{
 		await addCompletedRule(config,'Bearer '+user.accessToken,

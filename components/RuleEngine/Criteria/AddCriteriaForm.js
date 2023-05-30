@@ -8,6 +8,8 @@ import { ActiveContext } from '../../../context/ActiveContext';
 import SelectPicker from 'react-native-form-select-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { createCriteria } from '../../../api/RuleEngineAPI';
+import { taskOptions,badHabitOptions,budgetOptions,fundOptions,
+habitOptions,skillOptions,statOptions,accountOptions } from '../../../variables';
 
 const AddCriteriaForm = (props) => {
 
@@ -24,6 +26,8 @@ const AddCriteriaForm = (props) => {
 	const [conditionOptions, setConditionOptions] = useState([])
 	const [categoryOptions, setCategoryOptions] = useState([])
 	const [categoryNameOptions, setCategoryNameOptions] = useState([])
+	const [showCategory,setShowCategory] = useState(false);
+	const [showCategoryName, setShowCategoryName] = useState(false)
 
 	useEffect(() => {
 		refreshCriteriaForm(config, 'Bearer ' + user.accessToken, props.name)
@@ -38,69 +42,36 @@ const AddCriteriaForm = (props) => {
 	const updateConditions = async () => {
 		if (criteriaType === 'TASK') {
 			setConditionOptions(taskOptions);
+			setShowCategoryName(true)
 		}
 		else if (criteriaType === 'ACCOUNT') {
 			setConditionOptions(accountOptions);
 		}
 		else if (criteriaType === 'BAD_HABIT') {
 			setConditionOptions(badHabitOptions);
+			setShowCategoryName(true)
 		}
 		else if (criteriaType === 'BUDGET') {
 			setConditionOptions(budgetOptions);
+			setShowCategoryName(true)
 		}
 		else if (criteriaType === 'FUND') {
 			setConditionOptions(fundOptions)
 		}
 		else if (criteriaType === 'HABIT') {
 			setConditionOptions(habitOptions)
+			setShowCategoryName(true)
 		}
 		else if (criteriaType === 'SKILL') {
 			setConditionOptions(skillOptions)
+			setShowCategoryName(true)
 		}
 		else if (criteriaType === 'STAT') {
 			setConditionOptions(statOptions)
+			setShowCategoryName(true)
 		}
+		setShowCategory(true);
 	}
-	const taskOptions = [
-		{ value: 'TASK_COMPLETED', label: 'Completed' }
-	]
-	const habitOptions = [
-		{ value: 'HABIT_TOTAL_TIMES', label: 'Total Times' },
-		{ value: 'HABIT_STREAK', label: 'Streak' },
-		{ value: 'HABIT_TOTAL_TIME_SPENT', label: 'Total Time Spent' },
-		{ value: 'HABIT_TOTAL_TIME_WEEKLY', label: 'Total Times Weekly' },
-		{ value: 'HABIT_TOTAL_TIME_MONTHLY', label: 'Total Times Monthly' }
-	]
-	const badHabitOptions = [
-		{ value: 'BAD_HABIT_WEEKLY', label: 'Weekly times repeated' },
-		{ value: 'BAD_HABIT_MONTHLY', label: 'Monthly times repeated' },
-		{ value: 'BAD_HABIT_YEARLY', label: 'Yearly times repeated' },
-		{ value: 'BAD_HABIT_LAST_TIME', label: 'Last time completed' }
-	]
-
-	const statOptions = [
-		{ value: 'STAT_HIGHER_PREFERRED', label: 'Higher is acceptable' },
-		{ value: 'STAT_LOWER_PREFERRED', label: 'Lower is accepatable' }
-	]
-
-	const skillOptions = [
-		{ value: 'SKILL_COMPLETED', label: 'Skill is Completed' },
-		{ value: 'SKILL_TOTAL_TIME_SPENT', label: 'Total time spent for skill' }
-	]
-
-	const fundOptions = [
-		{ value: 'FUND_REACHED', label: 'Fund Reached' }
-	]
-
-	const accountOptions = [
-		{ value: 'ACCOUNT_REACHED', label: 'Account Reached' }
-	]
-
-	const budgetOptions = [
-		{ value: 'DELIGHT_BUDGET_MAINTAINED', label: 'Delight Budget is Maintained' },
-		{ value: 'LIVING_BUDGET_MAINTAINED', label: 'Living Budget is Maintained' },
-		{ value: 'GROWTH_BUDGET_MAINTAINED', label: 'Growth Budget is Maintained' },
-	]
 
 	const onSubmit = async () => {
 		await createCriteria(config, 'Bearer ' + user.accessToken, name, criteriaType,
@@ -130,6 +101,7 @@ const AddCriteriaForm = (props) => {
         </SelectPicker>
       </View>
       <View className="flex-row ">
+		{showCategory?
         <SelectPicker className="flex-1 mx-2 w-1/2 bg-white p-2"
           onValueChange={onCategoryChange} 
           placeholder="Category Type" selected={category} >
@@ -137,7 +109,8 @@ const AddCriteriaForm = (props) => {
               <SelectPicker.Item className="text-gray-400 " 
               label={option.label} value={option.value}/>
             ))}
-          </SelectPicker>
+          </SelectPicker>:null}
+		  {showCategoryName?
           <SelectPicker className="flex-1 mx-2 w-1/2 bg-white p-2"
           onValueChange={(value)=>setCategoryName(value)} 
           placeholder="Category Name" selected={categoryName} >
@@ -145,7 +118,7 @@ const AddCriteriaForm = (props) => {
               <SelectPicker.Item className="text-gray-400 " 
               label={option.label} value={option.value}/>
             ))}
-          </SelectPicker>
+          </SelectPicker>:null}
       </View>
       <View className="flex-row ">
         <TextInput className="flex-1 mx-2 w-1/3 bg-white p-2"  placeholder="Value"  

@@ -12,6 +12,7 @@ import { EyeIcon } from 'react-native-heroicons/solid';
 import * as Notifications from "expo-notifications";
 import * as Device from "expo-notifications";
 import { useNotifications } from '../../hooks/useNotifications';
+import { credentials } from '../../variables';
 
 
 Notifications.setNotificationHandler({
@@ -47,8 +48,8 @@ const LoginScreen = () => {
     const [isLoggedIn, setLoggedIn] = useState(false);
 	const [isError, setIsError] = useState(false);
 	const {config} = useContext(ConfigContext);
-    const [name,setName] = useState('');
-    const [password,setPassword] = useState('password');
+    const [name,setName] = useState(credentials.username);
+    const [password,setPassword] = useState(credentials.password);
     const {setUser} = useAuth();
     const {user} = useContext(UserContext);
     const [expoPushToken, setExpoPushToken] = useState('');

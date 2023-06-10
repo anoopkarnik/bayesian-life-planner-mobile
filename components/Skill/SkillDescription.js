@@ -1,7 +1,7 @@
 import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
   CheckBox
 } from 'react-native'
-import React, { useState,useContext } from 'react'
+import React, { useState,useContext,useEffect } from 'react'
 import SelectPicker from 'react-native-form-select-picker';
 import { deleteSkill } from '../../api/SkillAPI';
 import { useLayoutEffect } from 'react';
@@ -13,6 +13,11 @@ import { UserContext } from '../../context/UserContext';
 import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import SkillTopicItem from './SkillTopicItem';
+import { addTopicToSkill } from '../../api/SkillAPI';
+import { getTopicsFromSkill } from '../../api/SkillAPI';
+import { getTopic } from '../../api/TopicAPI';
+
 
 const SkillDescription = () => {
   const {params:{id,createdAt,updatedAt,name,
@@ -33,6 +38,11 @@ const SkillDescription = () => {
     const [isEditing,setIsEditing] = useState(false);
     const [showStartDate,setShowStartDate] = useState(false);
     const [showDueDate,setShowDueDate] = useState(false);
+    const [showAddTopic,setShowAddTopic] = useState(false)
+    const [topics,setTopics] = useState([])
+    const [topicOptions,setTopicOptions] = useState([])
+    const [addTopicText,setAddTopicText] = useState('Show Add Topic')
+    const [topicId, setTopicId] = useState('')
 
     const handleStartDate = (date) => {
       console.warn("A date has been picked: ", date);
@@ -86,6 +96,29 @@ const SkillDescription = () => {
       navigation.navigate("Normal",{skillTypeName2})
 	}
 
+  const addTopic = async() =>{
+    if (showAddTopic===false){
+      setShowAddTopic(true)
+      setAddTopicText('Add Topic')
+      const topics = await getTopic(config, 'Bearer '+user.accessToken,skillTypeName);
+      setTopicOptions(topics);
+    }
+    else{
+      setShowAddTopic(false)
+      await addTopicToSkill(config, 'Bearer '+user.accessToken,id,topicId)
+    }
+
+  }
+
+  useEffect(()=>{
+    updateSkill()
+  },[])
+
+  const updateSkill = async() =>{
+    const topics = await getTopicsFromSkill(config,'Bearer '+user.accessToken,id)
+    setTopics(topics)
+  }
+
 
   return (
     <SafeAreaView className="bg-black flex-1">
@@ -138,46 +171,6 @@ const SkillDescription = () => {
                 onChangeText={text => setTimeTaken(String(text))}/>:
                 <Text className="text-white text-xl">{timeTakenState}</Text>}
           </View>
-          {isEditing?
-          <View className='flex-row bg-gray-800 py-2'>
-            <Text className="text-white text-xl ">startDate : </Text>
-              <TouchableOpacity onPress={()=>setShowStartDate(!showStartDate)}
-              className="flex-1 bg-white text-xl" placeholder="Start Date">
-                <Text className="text-xl">{formatDate(new Date(startDateState))}</Text>  
-              </TouchableOpacity>       
-            {showStartDate?
-              <DateTimePicker
-              isVisible={showStartDate}
-              mode="date"
-              onConfirm={handleStartDate}
-              onCancel={()=>showStartDate(false)}
-            />
-         :null}
-          </View>:
-          <View className="flex-row bg-gray-800 py-2">
-            <Text className="text-white text-xl">startDate : {formatDate(new Date(startDateState))}
-              </Text>
-          </View>}
-          {isEditing?
-          <View className='flex-row bg-gray-800 py-2'>
-            <Text className="text-white text-xl ">dueDate : </Text>
-            <TouchableOpacity onPress={()=>setShowDueDate(!showDueDate)}
-              className="flex-1 bg-white  text-xl" placeholder="Due Date">
-                <Text className="text-xl">{formatDate(new Date(dueDateState))}</Text>  
-              </TouchableOpacity>    
-            {showDueDate?
-              <DateTimePicker
-              isVisible={showDueDate}
-              mode="date"
-              onConfirm={handleDueDate}
-              onCancel={()=>showDueDate(false)}
-            />
-         :null}
-          </View>:
-          <View className="flex-row bg-gray-800 py-2">
-            <Text className="text-white text-xl">dueDate : {formatDate(new Date(dueDateState))}
-              </Text>
-          </View>}
           <View className="flex-row bg-gray-800 py-2">
             <Text className=" text-white text-xl">active : </Text>
             {isEditing?
@@ -209,8 +202,28 @@ const SkillDescription = () => {
                   <Text className="text-white text-xl">{completedState?.toString()}</Text>}
           </View>
         </View>
+        <View className="my-5 mx-1 flex-row align-middle">
+          <TouchableOpacity className="bg-gray-600 mx-2 rounded-lg p-2" 
+            onPress={addTopic}>
+            <Text className="text-xl text-white">{addTopicText}</Text>
+          </TouchableOpacity>
+        </View>
+        {showAddTopic?
+        <SelectPicker className="flex-1 mx-2 w-1/2 bg-white p-2"
+          onValueChange={(value)=>setTopicId(value)} 
+          placeholder="Topic" selected={String(topicId)} >
+            {topicOptions.map((option)=>(
+              <SelectPicker.Item className="text-gray-400 " 
+              label={option.name} value={option.id}/>
+            ))}
+        </SelectPicker>:null}
+        <Text className="text-white text-2xl my-2 font-bold">Topics</Text>
+        {topics?.map((topic,index)=>(
+          <SkillTopicItem record={topic} name={topic.name} index={index} 
+          topicId={topic.id} skillId={id}/>
+        ))}
         <View className="align-center">
-            <Text className="text-white text-xl font-bold">description</Text>
+            <Text className="text-white text-2xl my-2 font-bold">description</Text>
             {isEditing?
                 <TextInput 
                 className="flex-1 bg-white text-xl"

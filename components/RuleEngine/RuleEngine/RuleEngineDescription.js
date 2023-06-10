@@ -1,9 +1,10 @@
+
 import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
     CheckBox
   } from 'react-native'
+
   import React, { useState,useContext,useEffect } from 'react'
   import SelectPicker from 'react-native-form-select-picker';
-  import { deleteCriteriaSet,deleteRule,deleteRuleSet } from '../../../api/RuleEngineAPI';
   import { useLayoutEffect } from 'react';
   import { useNavigation,useRoute } from '@react-navigation/native';
   import { ArrowLeftIcon } from 'react-native-heroicons/solid';
@@ -12,6 +13,8 @@ import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
   import { ConfigContext } from '../../../context/ConfigContext';
   import { ActiveContext } from '../../../context/ActiveContext';
   import DateTimePicker from 'react-native-modal-datetime-picker';
+  import {modifyCriteriaSetParams,modifyRuleParams,modifyRuleSetParams}
+  from '../../../api/RuleEngineAPI';
   
   const RuleEngineDescription = () => {
     const {params:{id,createdAt,updatedAt,name,childrenLength,type}} = useRoute();
@@ -28,12 +31,24 @@ import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
       ]
   
       const onUpdate= async() =>{
-          // await props.refreshFunction(config,'Bearer '+ user.accessToken)
-          // await modifyRuleEngineParams(config, 'Bearer '+user.accessToken,props.record.id,
-          // name,criteriaType,condition,category,weightage,value,categoryName);
+        if (isEditing==true){
+          if (type=== "Criteria Set") {
+            await modifyCriteriaSetParams(config, 'Bearer ' + user.accessToken, id,nameState)
+          }
+          else if (type === "Rule") {
+            await modifyRuleParams(config, 'Bearer ' + user.accessToken, id,nameState)
+          }
+          else if (type === "Rule Set") {
+            await modifyRuleSetParams(config, 'Bearer ' + user.accessToken, id,nameState)
+          }
           setIsEditing(false);
-      };
+        }
+        else{
+          setIsEditing(true);
+        }
 
+    };
+    
     function formatDate(date) {
       const months = {0: 'January',1: 'February',2: 'March',3: 'April',
       4: 'May', 5: 'June', 6: 'July', 7: 'August', 8: 'September',
@@ -49,22 +64,6 @@ import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
       const formatted = `${dayName}, ${date2} ${monthName} ${year}`
       return formatted.toString()
     }
-
-
-	const onDelete = async () => {
-    if (type=== "Criteria Set") {
-      await deleteCriteriaSet(config, 'Bearer ' + user.accessToken, id)
-    }
-    else if (type === "Rule") {
-      await deleteRule(config, 'Bearer ' + user.accessToken, id)
-    }
-    else if (type === "Rule Set") {
-      await deleteRuleSet(config, 'Bearer ' + user.accessToken, id)
-    }
-    navigation.navigate("Normal",{criteriaName})
-	}
-
-
 
     const criteriaName = 'Criteria';
      
@@ -90,10 +89,6 @@ import { View, Button,Text,SafeAreaView,ScrollView,TouchableOpacity,TextInput,
             {isEditing?
             <Text className="text-xl text-white">Update Item</Text>:
             <Text className="text-xl text-white">Edit Item</Text>}
-          </TouchableOpacity>
-            <TouchableOpacity className="bg-gray-600 mx-2 rounded-lg p-2" 
-            onPress={onDelete}>
-            <Text className="text-xl text-white">Delete</Text>
           </TouchableOpacity>
           </View>
             <View className="flex-row bg-gray-800 py-2">

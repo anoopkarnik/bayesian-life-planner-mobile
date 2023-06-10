@@ -63,9 +63,9 @@ const RuleEngineItem = (props) => {
             {childrenLength>0?<>
                   {showChild?
                       <MinusCircleIcon color="black" height={30} width={20}
-                      onPress={()=>setShowChild(false)}/>:
+                      onPress={()=>setShowChild(false)} onClick={()=>setShowChild(false)}/>:
                       <PlusCircleIcon color="black" height={30} width={20}
-                      onPress={()=>setShowChild(true)}/>
+                      onPress={()=>setShowChild(true)} onClick={()=>setShowChild(false)}/>
                   }</>:null}
                   <Text className="text-xl">{props.record.name}</Text>
                   <TouchableOpacity >
@@ -82,11 +82,12 @@ const RuleEngineItem = (props) => {
       {showChild?
           <View>
             {children.map((record)=>(
-                <ChildRuleEngineItem key={record.id} record={record} refreshFunction={props.refreshFunction}/>
+                <ChildRuleEngineItem key={record.id} name={props.name} criteriaType={props.record.criteriaType}
+                id={props.record.id} record={record} refreshFunction={refreshItem}/>
             ))}
           </View>:null}
         {showAddChild?
-          <AddChildRuleEngineForm refreshFunction={refreshFunction} 
+          <AddChildRuleEngineForm refreshFunction={refreshItem} 
           name={props.name} record={props.record} children={children}/>:null}
     </View>
   )

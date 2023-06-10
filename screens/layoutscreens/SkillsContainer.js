@@ -12,12 +12,14 @@ import { Menu,MenuTrigger,MenuOptions,MenuOption } from 'react-native-popup-menu
 
 
 import SkillStackNavigator from '../featurescreens/skillscreens/SubStackNavigator/SkillStackNavigator';
+import TopicStackNavigator from '../featurescreens/skillscreens/SubStackNavigator/TopicStackNavigator';
 import { ActiveContext } from '../../context/ActiveContext';
 
 
 const SkillsContainer = () => {
     const {showActive,setShowActive} = useContext(ActiveContext)
     const skillsName = 'Skills';
+    const topicsName = 'Topics'
     const Tab = createBottomTabNavigator();
     const {user} = useContext(UserContext);
 
@@ -65,12 +67,16 @@ const SkillsContainer = () => {
                     let rn = route.name;
                     if(rn===skillsName){
                         iconName=focused?'bookmarks':'bookmarks-outline'
-                    } 
+                    }
+                    else if(rn===topicsName){
+                        iconName=focused?'book':'book-outline'
+                    }
                     return <Ionicons name={iconName} size={size} color={"white"}/>
                 },
                 
             })}>
                 <Tab.Screen name={skillsName} component={SkillStackNavigator}/>
+                <Tab.Screen name={topicsName} component={TopicStackNavigator}/>
 
             </Tab.Navigator>
         </NavigationContainer>

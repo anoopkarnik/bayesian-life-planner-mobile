@@ -10,6 +10,12 @@ export const credentials =() =>{
     return {username:username,password:password}
 }
 
+export const topicTypeOptions = [
+    {label:'Paragraph',value:'TOPIC_PARAGRAPH'},
+    {label:'Items',value:'TOPIC_LIST'},
+    {label:'Urls',value:'TOPIC_URL'},
+]
+
 export const ruleEngineOptions= [
         {label:'Criteria',value:'Criteria'},
         {label:'Criteria Set',value:'Criteria Set'},

@@ -6,14 +6,14 @@ import { ConfigContext } from '../../../context/ConfigContext';
 import { ActiveContext } from '../../../context/ActiveContext';
 import SelectPicker from 'react-native-form-select-picker';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { createCriteriaSet,createRule,createRuleSet, getAllCriteria, getAllCriteriaSet, getAllRule, modifyCriteriaSetParams, modifyRuleParams, modifyRuleSetParams } from '../../../api/RuleEngineAPI';
+import { addCriteriaSetToRule, addCriteriaToCriteriaSet, addRuleToRuleSet, createCriteriaSet,createRule,createRuleSet, getAllCriteria, getAllCriteriaSet, getAllRule, modifyCriteriaSetParams, modifyRuleParams, modifyRuleSetParams } from '../../../api/RuleEngineAPI';
 import { criteriaOptions } from '../../../variables';
 
 const AddChildRuleEngineForm = (props) => {
 
 	const [name, setName] = useState(props.record.name);
 	const [childrenOptions, setChildrenOptions] = useState([])
-	const [childIds, setChildIds] = useState([]);
+	const [childId, setChildId] = useState([]);
 	const { user, setUser } = useContext(UserContext);
 	const { config } = useContext(ConfigContext);
 	const [children,setChildren] = useState(props.children)
@@ -21,7 +21,6 @@ const AddChildRuleEngineForm = (props) => {
 
 	useEffect(()=>{
 		updateChildren();
-		currentChildIds();
 	},[])
 
 	const updateCriteria = async(value)=>{
@@ -65,32 +64,24 @@ const AddChildRuleEngineForm = (props) => {
 		}
 	}
 
-	const currentChildIds= ()=>{
-		const childrenIds = []
-		props.children.map((child)=>{
-			childrenIds.push(child.id)
-		})
-		setChildIds(childrenIds)
-	}
-
 	const updateChildIds = async(value)=>{
-		setChildIds(childIds=>[...childIds,value])
+		setChildId(value)
 	}
 
 	const onSubmit = async () => {
 		if (props.name==="Criteria Set"){
-			await modifyCriteriaSetParams(config, 'Bearer ' + user.accessToken, 
-			props.record.id,name,childIds);
+			await addCriteriaToCriteriaSet(config, 'Bearer ' + user.accessToken, 
+			props.record.id,childId);
 		}
 		else if(props.name==="Rule"){
-			await modifyRuleParams(config, 'Bearer ' + user.accessToken, 
-			props.record.id,name,childIds);
+			await addCriteriaSetToRule(config, 'Bearer ' + user.accessToken, 
+			props.record.id,childId);
 		}
 		else if(props.name==="Rule Set"){
-			await modifyRuleSetParams(config, 'Bearer ' + user.accessToken,
-			props.record.id,name,childIds);
+			await addRuleToRuleSet(config, 'Bearer ' + user.accessToken,
+			props.record.id,childId);
 		}
-		props.refreshFunction()
+		props.refreshFunction(config, 'Bearer ' + user.accessToken,props.record.criteriaType)
 	}
 
   return (

@@ -8,6 +8,7 @@ import { getHabits } from '../../api/HabitAPI';
 import { PlusCircleIcon } from 'react-native-heroicons/solid';
 import AddHabitForm from './AddHabitForm';
 import { useIsFocused } from '@react-navigation/native';
+import { CurrentDateContext } from '../../context/CurrentDateContext';
 
 const HabitList = (props) => {
   const {user} = useContext(UserContext);
@@ -16,6 +17,7 @@ const HabitList = (props) => {
   const [showHabit, setShowHabit] = useState(false);
   const [showAddHabit, setShowAddHabit] = useState(false);
   const {showActive} = useContext(ActiveContext);
+  const {currentDate} = useContext(CurrentDateContext);
   const isFocused = useIsFocused();
 
     const onCreate = async() =>{
@@ -24,12 +26,12 @@ const HabitList = (props) => {
         setKey('Add '+props.name);
     }
     useEffect(() => {
-      isFocused && refreshHabit(config,'Bearer '+user.accessToken,props.habit,showActive)
-    }, [showActive,isFocused]);
+      isFocused && refreshHabit(config,'Bearer '+user.accessToken,props.habit,showActive,currentDate)
+    }, [showActive,isFocused,currentDate]);
 
-    const refreshHabit = async(backend_url,bearerToken,habit,showCurrentActive) =>{
+    const refreshHabit = async(backend_url,bearerToken,habit,showCurrentActive,currentDate) =>{
       // await props.refreshFunction(backend_url,bearerToken,habit)
-      const record = await getHabits(config,bearerToken,habit,showCurrentActive);
+      const record = await getHabits(config,bearerToken,habit,showCurrentActive,currentDate);
       setRecords(record);
       setShowAddHabit(false)
     }

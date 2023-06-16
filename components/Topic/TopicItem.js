@@ -13,9 +13,7 @@ const TopicItem = (props) => {
   var createdAt = props.record.createdAt
   var updatedAt = props.record.updatedAt
   var name = props.record.name
-  var paragraph = props.record.paragraph
-  var itemResponses = props.record.itemResponses
-  var topicType = props.record.topicTypeEnum
+  var skillType = props.name
 
 	const [showDescription, setShowDescription] = useState(false);
 	const { user } = useContext(UserContext);
@@ -24,8 +22,7 @@ const TopicItem = (props) => {
   const navigation = useNavigation();
 
 	const onShowDescription = async() =>{
-    navigation.navigate("Description",{id,createdAt,updatedAt,name,paragraph,
-      itemResponses,topicType})
+    navigation.navigate("Description",{id,createdAt,updatedAt,name,skillType})
 	}
 
   return (

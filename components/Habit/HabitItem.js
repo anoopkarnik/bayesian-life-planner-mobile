@@ -4,14 +4,12 @@ import { UserContext } from '../../context/UserContext';
 import { ConfigContext } from '../../context/ConfigContext';
 import { ActiveContext } from '../../context/ActiveContext';
 import { completeHabit, deleteHabit} from '../../api/HabitAPI';
-import HabitDescription from './HabitDescription';
-import ChildHabitItem from './ChildHabitItem';
-import AddChildHabitForm from './AddChildHabitForm';
 // import AddChildHabitForm from './AddChildHabitForm';
 import {PlusCircleIcon,MinusCircleIcon,PencilIcon,XCircleIcon,ArrowTopRightOnSquareIcon,
      PlusIcon, TrashIcon, WalletIcon}  
 from "react-native-heroicons/solid";
 import { useNavigation } from '@react-navigation/native';
+import { CurrentDateContext } from '../../context/CurrentDateContext';
 
 const HabitItem = (props) => {
     var one_day = 1000*60*60*24
@@ -36,13 +34,8 @@ const HabitItem = (props) => {
     var totalTimeSpent = props.record.totalTimeSpent;
 
 	const [showDescription, setShowDescription] =useState(false);
-	const [showChildHabits, setShowChildHabits] = useState(false);
-	const [showAddHabit,setShowAddHabit] = useState(false);
 	const {user} = useContext(UserContext);
     const {config} = useContext(ConfigContext);
-	const urgent = "flex flex-row flex-1 bg-[#F2A10F] border-solid border-1"
-	const medium ="flex flex-row flex-1 bg-[#FFFF99] border-solid border-1"
-	const low ="flex flex-row flex-1 bg-gray-400 border-solid border-1"
 	var dueDateTime = new Date(props.record.dueDate)
 	var dueDateTime2 = new Date(dueDateTime.getFullYear(),dueDateTime.getMonth(),dueDateTime.getDate()).getTime() - ((5*60)+30)*60*1000
 	var currentTime = new Date()
@@ -51,23 +44,24 @@ const HabitItem = (props) => {
 	const {showActive} = useContext(ActiveContext);
     const navigation = useNavigation();
     const [showPopup,setShowPopup] = useState(false);
+	const {currentDate} = useContext(CurrentDateContext);
 
     const onComplete = async() => {
         setShowPopup(false)
-		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Complete')
-		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive)
+		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Complete',currentDate)
+		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive,currentDate)
 	}
 
 	const onAtomicComplete = async() => {
         setShowPopup(false)
-		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Atomic')
-		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive)
+		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Atomic',currentDate)
+		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive,currentDate)
 	}
 
 	const onConditionalComplete = async() => {
         setShowPopup(false)
-		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Condition')
-		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive)
+		await completeHabit(config,'Bearer '+user.accessToken,props.record.id,'Condition',currentDate)
+		await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive,currentDate)
 	}
 
 	const onShowDescription = async() =>{
@@ -77,25 +71,12 @@ const HabitItem = (props) => {
         totalTimeSpent, description,active,hidden,completed,every,daysOfWeek})
 	}
 
-    const refreshForm = async() =>{
-        setShowAddHabit(false);
-        await props.refreshFunction(config,'Bearer '+ user.accessToken,props.record.habitTypeName,showActive);
-        setShowChildHabits(true);
-    }
-
      
 
   return (
     <View className="flex">
-        <View className={daysLeft<1?urgent:daysLeft<7?medium:low}>
+        <View className="flex flex-row flex-1 border-solid border-1">
             <View className="w-3/5 flex-row">
-                {props.record.habitResponses.length>0?<>
-                {showChildHabits?
-                    <MinusCircleIcon color="black" height={30} width={20}
-                    onPress={()=>setShowChildHabits(false)}/>:
-                    <PlusCircleIcon color="black" height={30} width={20}
-                    onPress={()=>setShowChildHabits(true)}/>
-                }</>:null}
                 <Text className="text-xl">{props.record.name}</Text>
                 <TouchableOpacity >
                     <ArrowTopRightOnSquareIcon color="black" size={20} 
@@ -114,7 +95,7 @@ const HabitItem = (props) => {
             <View className="justify-center align-middle">
                 <Modal animationType="slide" transparent={true} visible={showPopup} 
                 onRequestClose={()=>setShowPopup(false)}>
-                    <View className="bg-[#556581] justify-center align-middle m-20">
+                    <View className="bg-[#556581] justify-center align-middle m-20 p-3">
                         <Text className="text-white text-lg">Select Completion Type</Text>
                         <TouchableOpacity onPress={onComplete} className="bg-gray-500">
                             <Text className="text-white">Complete </Text>
@@ -128,23 +109,7 @@ const HabitItem = (props) => {
                     </View>
                 </Modal>
             </View>
-            {/* <View className="w-1/5">
-              <TouchableOpacity
-                   onPress={()=>{setShowAddHabit(!showAddHabit)}}>
-                  <PlusCircleIcon color="white" size={30}/>
-              </TouchableOpacity>
-            </View> */}
         </View>
-        {/* {showChildHabits?
-          <View>
-            {props.record.habitResponses.map((record)=>(
-                <ChildHabitItem key={record.id} record={record} refreshFunction={props.refreshFunction}/>
-            ))}
-          </View>:null}
-        {showAddHabit?
-          <AddChildHabitForm refreshFunction={refreshForm} 
-          name={props.record.name} type={props.record.habitTypeName}/>:null} */}
-
     </View>
   )
 }

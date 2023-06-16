@@ -5,7 +5,7 @@
     "version": "3.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "scheme":"com.bayesian.lifeplanner",
+    "scheme": "com.bayesian.lifeplanner",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/icon.png",
@@ -20,8 +20,8 @@
     },
     "android": {
       "package": "com.bayesian.lifeplanner",
-      "googleServicesFile":"./google-services.json",
-      "versionCode": 20,
+      "googleServicesFile": "./google-services.json",
+      "versionCode": 24,
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
@@ -34,6 +34,9 @@
       "eas": {
         "projectId": "527e63fe-fc62-4129-83c2-a4fb16348d67"
       }
-    }
+    },
+    "plugins": [
+      "expo-build-properties"
+    ]
   }
 }

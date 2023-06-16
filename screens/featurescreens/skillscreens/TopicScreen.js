@@ -28,8 +28,8 @@ import TopicList from '../../../components/Topic/TopicList';
         }, [isFocused]);
   
       const refreshTopicPage = async(backend_url,bearerToken) =>{
-        const {skill,skillOptions} = await getTotalSkills(config,'Bearer '+user.accessToken);
-        setSkills(skill);
+        const {skills,skillOptions} = await getTotalSkills(config,'Bearer '+user.accessToken);
+        setSkills(skills);
       }
   
       const Stack = createNativeStackNavigator();

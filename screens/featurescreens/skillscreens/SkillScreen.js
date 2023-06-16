@@ -28,8 +28,8 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
         }, [isFocused]);
   
       const refreshSkillPage = async(backend_url,bearerToken) =>{
-        const {skill,skillOptions} = await getTotalSkills(config,'Bearer '+user.accessToken);
-        setSkills(skill);
+        const {skills,skillOptions} = await getTotalSkills(config,'Bearer '+user.accessToken);
+        setSkills(skills);
       }
   
       const Stack = createNativeStackNavigator();
@@ -39,7 +39,9 @@ import { View,Button, Text,SafeAreaView,Image, TextInput, ScrollView,
       <SafeAreaView className="bg-black flex-1">
         <ScrollView>
           {skills?.map(skill=>
-              <SkillList key={skill.name} skill={skill} refreshFunction={refreshSkillPage}/>)} 
+          <View>
+              <SkillList key={skill} skill={skill} refreshFunction={refreshSkillPage}/> 
+          </View>)}
         </ScrollView>
       </SafeAreaView>
     )

@@ -14,8 +14,7 @@ export const signin = async(backend_url,name,password) =>{
   const res = await fetch(backend_url+'/auth/signin', {
     method: 'POST',
     headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({name,password}),
   })
@@ -45,3 +44,4 @@ export const modifyProfileParams = async(backend_url,bearerToken,panNo)=>{
       body: JSON.stringify({panNo}),
     })
 }
+

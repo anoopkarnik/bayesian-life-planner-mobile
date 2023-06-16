@@ -1,5 +1,22 @@
 import axios from 'axios';
 
+export const getStat = async(backend_url,bearerToken,id) =>{
+  const res = await fetch(backend_url+'/api/stats/'+id,{
+    method: 'GET',
+    headers:{
+      'Authorization':bearerToken
+    }
+  }
+  )
+  if(res.status===200 | res.status===201){
+    var data = await res.json()
+  }
+  else{
+    var data={};
+  }  
+  return data
+}
+
 export const getStats = async(backend_url,bearerToken,statsTypeName) =>{
     const res = await fetch(backend_url+'/api/stats?statsTypeName='+statsTypeName,{
         method: 'GET',
@@ -16,7 +33,7 @@ export const getStats = async(backend_url,bearerToken,statsTypeName) =>{
       return data
 }
 
-export const createRootStat= async(backend_url,bearerToken,name,
+export const createRootStats= async(backend_url,bearerToken,name,
   statsTypeName,value,description,active)=>{
 
       const res = await fetch(backend_url+'/api/stats/root', {
@@ -32,7 +49,7 @@ export const createRootStat= async(backend_url,bearerToken,name,
       return data
     }
 
-export const createChildStat= async(backend_url,bearerToken,name,
+export const createChildStats= async(backend_url,bearerToken,name,
       statsTypeName,value,description,parentStatsName,active)=>{
     
           const res = await fetch(backend_url+'/api/stats/child', {
@@ -49,7 +66,7 @@ export const createChildStat= async(backend_url,bearerToken,name,
         }
 
 
-export const modifyStatParams = async(backend_url,bearerToken,id,
+export const modifyStatsParams = async(backend_url,bearerToken,id,
   name,startDate,description,active,hidden,completed,
   value)=>{
   await fetch(backend_url+'/api/stats/modifyParams', {
@@ -63,7 +80,7 @@ export const modifyStatParams = async(backend_url,bearerToken,id,
         value}),
     })
 }
-export const addStatValue = async(backend_url,bearerToken,id,value)=>{
+export const addStatsValue = async(backend_url,bearerToken,id,value)=>{
   await fetch(backend_url+'/api/stats/value', {
       method: 'PATCH',
       headers:{
@@ -74,7 +91,7 @@ export const addStatValue = async(backend_url,bearerToken,id,value)=>{
     })
 }
 
-export const deleteStat = async(backend_url,bearerToken,id) =>{
+export const deleteStats = async(backend_url,bearerToken,id) =>{
     await axios.delete(backend_url+'/api/stats?id='+id,{
         headers:{Authorization:bearerToken}
       })

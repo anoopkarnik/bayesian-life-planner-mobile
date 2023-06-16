@@ -74,7 +74,7 @@ export const getTotalStats = async(backend_url,bearerToken) =>{
     var names = new Array();
     var options = new Array();
   }  
-  return {stat:names,statsOptions:options}
+  return {stats:names,statsOptions:options}
 }
 export const getTotalSkills = async(backend_url,bearerToken) =>{
   const res = await fetch(backend_url+'/api/commons/skill',{
@@ -96,7 +96,7 @@ export const getTotalSkills = async(backend_url,bearerToken) =>{
     var names = new Array();
     var options = new Array();
   }  
-  return {skill:names,skillOptions:options}
+  return {skills:names,skillOptions:options}
 }
 export const getTotalGoals = async(backend_url,bearerToken) =>{
   const res = await fetch(backend_url+'/api/commons/goal',{
@@ -118,7 +118,7 @@ export const getTotalGoals = async(backend_url,bearerToken) =>{
     var names = new Array();
     var options = new Array();
   }  
-  return {goal:names,goalOptions:options}
+  return {goals:names,goalOptions:options}
 }
 export const getTotalBadHabits = async(backend_url,bearerToken) =>{
   const res = await fetch(backend_url+'/api/commons/badHabit',{
@@ -140,7 +140,7 @@ export const getTotalBadHabits = async(backend_url,bearerToken) =>{
     var names = new Array();
     var options = new Array();
   }  
-  return {badHabit:names,badHabitOptions:options}
+  return {badHabits:names,badHabitOptions:options}
 }
 
 export const getTotalAccounts= async(backend_url,bearerToken) =>{
@@ -234,6 +234,8 @@ export const getTotalExpenses= async(backend_url,bearerToken) =>{
   }  
   return {expenses:names,expenseOptions:options}
 }
+
+
 export const createTaskType = async(backend_url,bearerToken,name) =>{
     const res = await fetch(backend_url+'/api/commons/task', {
       method: 'POST',
@@ -318,7 +320,6 @@ export const createBadHabitType = async(backend_url,bearerToken,name) =>{
   const data = await res.json()
   return data
 }
-
 export const createAccountType = async(backend_url,bearerToken,name) =>{
   const res = await fetch(backend_url+'/api/commons/accounts', {
     method: 'POST',
@@ -484,7 +485,6 @@ export const editBadHabitType = async(backend_url,bearerToken,id,name) =>{
     }
   })
 }
-
 export const editAccountType = async(backend_url,bearerToken,id,name) =>{
   await fetch(backend_url+'/api/commons/accounts?id='+id+'&name='+name, {
     method: 'PATCH',
@@ -493,6 +493,7 @@ export const editAccountType = async(backend_url,bearerToken,id,name) =>{
     }
   })
 }
+
 export const editCategoryType = async(backend_url,bearerToken,id,name) =>{
   await fetch(backend_url+'/api/commons/categories?id='+id+'&name='+name, {
     method: 'PATCH',
@@ -517,4 +518,3 @@ export const editExpenseType = async(backend_url,bearerToken,id,name) =>{
     }
   })
 }
-
